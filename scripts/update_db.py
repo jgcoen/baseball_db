@@ -12,14 +12,23 @@ class Table():
         self.schema = schema
         self.load_config = load_config
         self.schema_config = schema_config
+        self.path = self._get_file_path()
+        self.df = self._load_data()
 
-        self.path = None
-    
-    @property
+
     def _get_file_path(self):
         """ Creates the full path to the table"""
-        path = f"data/{schema}/{load_config.get(path)}"
-        self.path = path
+
+        path = f"data/{self.schema}/{self.load_config.get('path')}"
+        return path
+
+    def _load_data(self):
+        """Loads the data using pd.read_csv"""
+
+        self.load_config.pop('path')
+        df = pd.read_csv(self.path, **self.load_config )
+
+        return df
 
     #def load_data(self):
 
@@ -27,15 +36,25 @@ class Table():
 
 
 def main():
-    conn = psycopg2.connect()
-    cur = conn.cursor()
-    cur.close()
-    conn.close()
+
+    with open('scripts/tables_config.yaml') as f:
+        table_configs = yaml.safe_load(f)
+
+    for s in table_configs:
+        for t in table_configs[s]:
+            config = table_configs[s][t]
+            table = Table(name=t, schema=s, load_config=config.get('load'), schema_config=config.get('schema'))
+
+            print(table.df.head())
+
+    # conn = psycopg2.connect()
+    # cur = conn.cursor()
+    # cur.close()
+    # conn.close()
 
 def test():
     path_prefix = '/Users/James/Documents/data_projects/baseball_db/data/'
-    with open('scripts/tables_config.yaml') as f:
-        config = yaml.safe_load(f)
+    
     
     
     for schema in config:
@@ -58,4 +77,4 @@ def create_schema():
     
 
 if __name__ == "__main__":
-    test()
+    main()
