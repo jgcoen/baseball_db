@@ -13,7 +13,7 @@ class Table():
 
 
 def main():
-    conn = psycopg2.connect("dbname=baseball user=postgres")
+    conn = psycopg2.connect()
     cur = conn.cursor()
     cur.close()
     conn.close()
