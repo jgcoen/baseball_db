@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "baseball_db"
+version = "0.1.0"
+description = ""
+authors = ["jgcoen <jgcoen30@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pandas = "^1.2.3"
+pybaseball = "^2.1.1"
+psycopg2-binary = "^2.8.6"
+PyYAML = "^5.4.1"
+
+[tool.poetry.dev-dependencies]
+pylint = "^2.7.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

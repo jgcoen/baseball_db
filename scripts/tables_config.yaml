@@ -1,0 +1,13 @@
+
+lahman:
+    all_star_full:
+        path: all_star_full.tsv
+        schema:
+          - playerID: varchar
+          - yearID: int
+          - gameNum: int
+          - gameID: varchar
+          - teamID: varchar
+          - GP: int
+          - startingPos: int
+
