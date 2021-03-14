@@ -7,14 +7,20 @@ from typing import Mapping
 
 class Table():
 
-    def __init__(self, name: str, schema: str, load_config: Mapping[str, str], schema_config: Mapping[str, str]):
+    def __init__(self, name: str, schema: str, load_config: Mapping[str, str], schema_config: Mapping[str, str]) -> None:
         self.name = name
         self.schema = schema
-        self.load_config = file_path
+        self.load_config = load_config
         self.schema_config = schema_config
+
+        self.path = None
     
-    d
-    
+    @property
+    def _get_file_path(self):
+        """ Creates the full path to the table"""
+        path = f"data/{schema}/{load_config.get(path)}"
+        self.path = path
+
     #def load_data(self):
 
 
