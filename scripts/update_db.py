@@ -1,15 +1,23 @@
 import pandas as pd
 import psycopg2
 import yaml
+from typing import Mapping
+
 
 
 class Table():
 
-    def __init__(self, name, file_path,schema_config):
+    def __init__(self, name: str, schema: str, load_config: Mapping[str, str], schema_config: Mapping[str, str]):
         self.name = name
-        self.file_path = file_path
-        self.schema_config = self.schema
+        self.schema = schema
+        self.load_config = file_path
+        self.schema_config = schema_config
     
+    d
+    
+    #def load_data(self):
+
+
 
 
 def main():
