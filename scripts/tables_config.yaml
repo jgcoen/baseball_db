@@ -5,11 +5,11 @@ lahman:
             path: all_star_full.tsv
             sep: '\t'
         schema:
-          - playerID: varchar
-          - yearID: int
-          - gameNum: int
-          - gameID: varchar
-          - teamID: varchar
-          - GP: int
-          - startingPos: int
+          playerID: varchar
+          yearID: int
+          gameNum: int
+          gameID: varchar
+          teamID: varchar
+          GP: int
+          startingPos: int
 
