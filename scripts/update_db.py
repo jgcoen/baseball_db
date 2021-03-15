@@ -1,7 +1,7 @@
 import pandas as pd
 import psycopg2
 import yaml
-from typing import Mapping
+from typing import List, Mapping
 
 
 
@@ -14,7 +14,9 @@ class Table():
         self.schema_config = schema_config
         self.path = self._get_file_path()
         self.df = self._load_data()
+        self.schema_string = self._create_schema()
 
+        self._create_create_statement()
 
     def _get_file_path(self):
         """ Creates the full path to the table"""
@@ -29,52 +31,54 @@ class Table():
         df = pd.read_csv(self.path, **self.load_config )
 
         return df
+    
+    def _create_schema(self):
 
-    #def load_data(self):
+        col_strings = []
+        for col_name, col_dtype in self.schema_config.items():
+            col_string = f"{col_name} {col_dtype}"
+            col_strings.append(col_string)
+        
+        schema_string = f"({', '.join(col_strings)})"
 
+        return schema_string
 
+    def _create_create_statement(self):
+
+        create_statement = f"create table {self.schema}.{self.name} {self.schema_string};"
+
+        print(create_statement)
+
+def load_config(path: str='scripts/tables_config.yaml') -> Mapping[str, str]:
+    """Loads a yaml config from the specified path
+
+    Args:
+        path (str): Path of the config
+
+    Returns:
+        config (Mapping): The dictionary from the loaded yaml
+
+    """
+
+    with open(path) as f:
+        config = yaml.safe_load(f)
+
+    return config
 
 
 def main():
 
-    with open('scripts/tables_config.yaml') as f:
-        table_configs = yaml.safe_load(f)
+    table_configs = load_config()
 
     for s in table_configs:
         for t in table_configs[s]:
             config = table_configs[s][t]
             table = Table(name=t, schema=s, load_config=config.get('load'), schema_config=config.get('schema'))
 
-            print(table.df.head())
-
     # conn = psycopg2.connect()
     # cur = conn.cursor()
     # cur.close()
     # conn.close()
-
-def test():
-    path_prefix = '/Users/James/Documents/data_projects/baseball_db/data/'
-    
-    
-    
-    for schema in config:
-        for table in config[schema]:
-            full_path = path_prefix + schema + '/' + table
-            
-
-
-def create_schema():
-    df = pd.read_csv('/Users/James/Documents/data_projects/baseball_db/data/lahman/all_star_full.tsv', sep='\t')
-    
-    conversion_dict = {'object': 'varchar'
-                        
-                        
-                        }
-
-    dtypes = pd.DataFrame(df.dtypes, columns=['dtype'])
-    for e in dtypes.itertuples():
-        print(e.dtype=='object')
-    
 
 if __name__ == "__main__":
     main()
