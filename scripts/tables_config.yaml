@@ -3,13 +3,14 @@ lahman:
     all_star_full:
         load: 
             path: all_star_full.tsv
-            sep: '\t'
+            sep: "\t"
         schema:
           playerID: varchar
-          yearID: int
-          gameNum: int
+          yearID: float
+          gameNum: float
           gameID: varchar
+          lgID: varchar
           teamID: varchar
-          GP: int
-          startingPos: int
+          GP: float
+          startingPos: float
 
