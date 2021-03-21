@@ -201,3 +201,15 @@ lahman:
             SB: float
             CS: float
             ZR: float
+    hall_of_fame:
+        load: {path: hall_of_fame.tsv.gz, sep: "\t", compression: gzip}
+        schema:
+            playerID: varchar
+            yearID: float
+            votedBy: varchar
+            ballots: float
+            needed: float
+            votes: float
+            inducted: varchar
+            category: varchar
+            needed_note: varchar
