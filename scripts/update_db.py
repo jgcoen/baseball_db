@@ -1,15 +1,10 @@
-import pandas as pd
-import psycopg2
-import yaml
-from typing import List, Mapping
-from utils import load_secrets, create_db_connection, configure_logging
 import os
 import logging
+from typing import List, Mapping
 
-logger = logging.getLogger(__name__)
-
-
-
+import pandas as pd
+import yaml
+from utils import create_db_connection, configure_logging
 
 
 class Table():
@@ -35,7 +30,7 @@ class Table():
 
         relative_path = f"data/{self.schema}/{self.load_config.get('path')}"
         path = os.path.abspath(relative_path)
-        
+
         return path
 
     def _load_data(self):
@@ -69,7 +64,7 @@ class Table():
         drop_statement = f"drop table if exists {self.table_name}"
 
         return drop_statement
-    
+
     def _create_copy_statement(self):
 
         if self.load_config.get('compression',0)=='gzip':
@@ -85,7 +80,7 @@ class Table():
 
     def update_table(self,conn,cur):
 
-        logger.info(f"Beggining to update {self.table_name}")
+        logging.info(f"Beggining to update {self.table_name}")
         #Drop Table
         cur.execute(self.drop_statement)
         conn.commit()
@@ -98,7 +93,7 @@ class Table():
         cur.execute(self.copy_statement)
         conn.commit()
 
-        logger.info(f"Finished updating {self.table_name}")
+        logging.info(f"Finished updating {self.table_name}")
 
         return None
 
@@ -121,19 +116,18 @@ def load_config(path: str='scripts/tables_config.yaml') -> Mapping[str, str]:
 
 def main():
     conn, cur = create_db_connection()
-    configure_logging()
 
-    table_configs = load_config()
 
-    for s in table_configs:
-        for t in table_configs[s]:
-            config = table_configs[s][t]
-            table = Table(name=t, schema=s, load_config=config.get('load'), schema_config=config.get('schema'))
-            table.update_table(conn, cur)
-           
+    config = load_config()
+
+    for schema, schema_config in config.items():
+        for table, table_config in schema_config.items():
+            t = Table(name=table, schema=schema, load_config=table_config.get('load'), schema_config=table_config.get('schema'))
+            t.update_table(conn,cur)
 
     cur.close()
     conn.close()
 
 if __name__ == "__main__":
+    configure_logging()
     main()
