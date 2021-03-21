@@ -213,3 +213,16 @@ lahman:
             inducted: varchar
             category: varchar
             needed_note: varchar
+    home_games:
+        load: {path: home_games.tsv.gz, sep: "\t", compression: gzip}
+        #This table uses '.' notation, manually swaped out for '_'
+        schema:
+            year_key: float
+            league_key: varchar
+            team_key: varchar
+            park_key: varchar
+            span_first: date
+            span_last: date
+            games: float
+            openings: float
+            attendance: float
