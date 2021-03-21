@@ -2,8 +2,9 @@
 lahman:
     all_star_full:
         load: 
-            path: all_star_full.tsv
+            path: all_star_full.tsv.gz
             sep: "\t"
+            compression: gzip
         schema:
           playerID: varchar
           yearID: float
@@ -13,4 +14,31 @@ lahman:
           teamID: varchar
           GP: float
           startingPos: float
-
+    
+    appearances:
+        load:
+            path: appearances.tsv.gz
+            sep: "\t"
+            compression: gzip
+        schema:
+            yearID: float
+            teamID: varchar
+            lgID: varchar
+            playerID: varchar
+            G_all: float
+            GS: float
+            G_batting: float
+            G_defense: float
+            G_p: float
+            G_c: float
+            G_1b: float
+            G_2b: float
+            G_3b: float
+            G_ss: float
+            G_lf: float
+            G_cf: float
+            G_rf: float
+            G_of: float
+            G_dh: float
+            G_ph: float
+            G_pr: float
