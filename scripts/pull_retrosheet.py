@@ -63,10 +63,11 @@ def main():
     # _season_game_logs = MultiYearDataPull(name='season_game_logs', schema ='retrosheet', func=season_game_logs, min_year=1871, limit=70)
     # _season_game_logs.update_table()
 
-    _schedules = MultiYearDataPull(name='schedules', schema ='retrosheet', func=schedules, min_year=1871, limit=70)
+    _schedules = MultiYearDataPull(name='schedules', schema ='retrosheet', func=schedules, min_year=1877, limit=40)
     _schedules.update_table()
 
-    _rosters = MultiYearDataPull(name='rosters', schema ='retrosheet', func=rosters, min_year=1871, limit=70)
+
+    _rosters = MultiYearDataPull(name='rosters', schema ='retrosheet', func=rosters, min_year=1871, limit=40)
     _rosters.update_table()
 
 if __name__ == "__main__":

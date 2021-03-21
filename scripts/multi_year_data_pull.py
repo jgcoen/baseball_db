@@ -98,7 +98,7 @@ class MultiYearDataPull:
         """
 
         #Remove Most Recent Data
-        #self._remove_most_recent_data()
+        self._remove_most_recent_data()
 
         #Coverage
         self.potential_coverage = self._find_potential_coverage()
