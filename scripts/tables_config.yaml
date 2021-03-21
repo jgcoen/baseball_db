@@ -262,3 +262,63 @@ lahman:
             city: varchar
             state: varchar
             country: varchar
+    people:
+        load: {path: people.tsv.gz, sep: "\t", compression: gzip}
+        schema:
+            playerID: varchar
+            birthYear: float
+            birthMonth: float
+            birthDay: float
+            birthCountry: varchar
+            birthState: varchar
+            birthCity: varchar
+            deathYear: float
+            deathMonth: float
+            deathDay: float
+            deathCountry: varchar
+            deathState: varchar
+            deathCity: varchar
+            nameFirst: varchar
+            nameLast: varchar
+            nameGiven: varchar
+            weight: float
+            height: float
+            bats: varchar
+            throws: varchar
+            debut: date
+            finalGame: date
+            retroID: varchar
+            bbrefID: varchar
+    pitching_post:
+        load: {path: pitching_post.tsv.gz, sep: "\t", compression: gzip}
+        schema:
+            playerID: varchar
+            yearID: float
+            round: varchar
+            teamID: varchar
+            lgID: varchar
+            W: float
+            L: float
+            G: float
+            GS: float
+            CG: float
+            SHO: float
+            SV: float
+            IPouts: float
+            H: float
+            ER: float
+            HR: float
+            BB: float
+            SO: float
+            BAOpp: float
+            ERA: float
+            IBB: float
+            WP: float
+            HBP: float
+            BK: float
+            BFP: float
+            GF: float
+            R: float
+            SH: float
+            SF: float
+            GIDP: float
