@@ -371,3 +371,16 @@ lahman:
             city: varchar
             state: varchar
             country: varchar
+    series_post:
+        load: {path: series_post.tsv.gz, sep: "\t", compression: gzip}
+        schema:
+            yearID: float
+            round: varchar
+            teamIDwinner: varchar
+            lgIDwinner: varchar
+            teamIDloser: varchar
+            lgIDloser: varchar
+            wins: float
+            losses: float
+            ties: float
+    
