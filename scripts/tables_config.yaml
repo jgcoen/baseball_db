@@ -73,6 +73,31 @@ lahman:
             pointsWon: float
             pointsMax: float
             votesFirst: float
+    batting_post:
+        load: {path: batting_post.tsv.gz, sep: "\t", compression: gzip}
+        schema:
+            yearID: float
+            round: varhcar
+            playerID: varchar
+            teamID: varchar
+            lgID: varchar
+            G: float
+            AB: float
+            R: float
+            H: float
+            2B: float
+            3B: float
+            HR: float
+            RBI: float
+            SB: float
+            CS: float
+            BB: float
+            SO: float
+            IBB: float
+            HBP: float
+            SH: float
+            SF: float
+            GIDP: float
     batting:
         load: {path: batting.tsv.gz, sep: "\t", compression: gzip}
         schema:
