@@ -53,15 +53,18 @@ class MultiYearDataPull:
         """
 
         outstanding_years = sorted(self.potential_coverage - self.coverage, reverse=True)
-        print(f"There are {len(outstanding_years)} years to pull, pulling {min([self.limit,len(outstanding_years)])} now")
+        logging.info(f"There are {len(outstanding_years)} years to pull, pulling {min([self.limit,len(outstanding_years)])} now")
 
         for year in outstanding_years[:self.limit]:
             sleep_random()
             year_path = f"{self.directory_path}{year}.tsv.gz"
-            df = self.func(year)
-            df.to_csv(year_path, index=False, sep='\t', compression='gzip')
+            try:
+                df = self.func(year)
+                df.to_csv(year_path, index=False, sep='\t', compression='gzip')
 
-            logging.info(f"Wrote data to {year_path}")
+                logging.info(f"Wrote data to {year_path}")
+            except:
+                logging.info(f"Could not pull data for {self.name} from {year}")
 
     def _aggregate_data(self) -> None:
         """ Aggregates all data in the self.directory_path and writes it to self.path"""
@@ -95,7 +98,7 @@ class MultiYearDataPull:
         """
 
         #Remove Most Recent Data
-        self._remove_most_recent_data()
+        #self._remove_most_recent_data()
 
         #Coverage
         self.potential_coverage = self._find_potential_coverage()
