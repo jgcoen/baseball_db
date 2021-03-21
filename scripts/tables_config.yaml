@@ -226,3 +226,29 @@ lahman:
             games: float
             openings: float
             attendance: float
+    managers_half:
+        load: {path: managers_half.tsv.gz, sep: "\t", compression: gzip}
+        schema:
+            playerID: varchar
+            yearID: float
+            teamID: varchar
+            lgID: varchar
+            inseason: float
+            half: float
+            G: float
+            W: float
+            L: float
+            rank: float
+    managers:
+        load: {path: managers.tsv.gz, sep: "\t", compression: gzip}
+        schema:
+            playerID: varchar
+            yearID: float
+            teamID: varchar
+            lgID: varchar
+            inseason: float
+            G: float
+            W: float
+            L: float
+            rank: float
+            plyrMgr: varchar
