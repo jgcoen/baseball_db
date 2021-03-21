@@ -647,7 +647,34 @@ retrosheet:
             close: date
             league: varchar
             notes: varchar
-
+    
+    schedules:
+        load: {path: schedules.tsv.gz, sep: "\t", compression: gzip}
+        schema: 
+            date: date
+            game_num: float
+            day_of_week: varchar
+            visiting_team: varchar
+            visiting_team_league: varchar
+            visiting_team_game_num: float
+            home_team: varchar
+            home_team_league: varchar
+            home_team_game_num: float
+            day_night: varchar
+            postponement_cancellation: varchar
+            date_of_makeup: date
+    
+    #This could be a problem, since there is no year attached
+    roster:
+        load: {path: roster.tsv.gz, sep: "\t", compression: gzip}
+        schema:
+            player_id: varchar
+            last_name: varchar
+            first_name: varchar
+            bats: varchar
+            throws: varchar
+            team: varchar
+            position: varchar
 
 
 
