@@ -252,3 +252,13 @@ lahman:
             L: float
             rank: float
             plyrMgr: varchar
+    parks:
+        load: {path: parks.tsv.gz, sep: "\t", compression: gzip}
+        #This table uses '.' notation, manually swaped out for '_'
+        schema:
+            park_key: varchar
+            park_name: varchar
+            park_alias: varchar
+            city: varchar
+            state: varchar
+            country: varchar
