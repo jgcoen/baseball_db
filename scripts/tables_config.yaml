@@ -77,7 +77,7 @@ lahman:
         load: {path: batting_post.tsv.gz, sep: "\t", compression: gzip}
         schema:
             yearID: float
-            round: varhcar
+            round: varchar
             playerID: varchar
             teamID: varchar
             lgID: varchar
@@ -123,3 +123,9 @@ lahman:
             SH: float
             SF: float
             GIDP: float
+    college_playing:
+        load: {path: college_playing.tsv.gz, sep: "\t", compression: gzip}
+        schema:
+            playerID: varchar
+            schoolID: varchar
+            yearID: float
