@@ -1,458 +1,625 @@
+# lahman:
+#     all_star_full:
+#         load: {path: all_star_full.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#           playerID: varchar
+#           yearID: float
+#           gameNum: float
+#           gameID: varchar
+#           lgID: varchar
+#           teamID: varchar
+#           GP: float
+#           startingPos: float
+#     appearances:
+#         load: {path: appearances.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             yearID: float
+#             teamID: varchar
+#             lgID: varchar
+#             playerID: varchar
+#             G_all: float
+#             GS: float
+#             G_batting: float
+#             G_defense: float
+#             G_p: float
+#             G_c: float
+#             G_1b: float
+#             G_2b: float
+#             G_3b: float
+#             G_ss: float
+#             G_lf: float
+#             G_cf: float
+#             G_rf: float
+#             G_of: float
+#             G_dh: float
+#             G_ph: float
+#             G_pr: float
+#     awards_managers:
+#         load: {path: awards_managers.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             playerID: varchar
+#             awardID: varchar
+#             yearID: float
+#             lgID: varchar
+#             tie: varchar
+#             notes: varchar
+#     awards_players:
+#         load: {path: awards_players.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             playerID: varchar
+#             awardID: varchar
+#             yearID: float
+#             lgID: varchar
+#             tie: varchar
+#             notes: varchar
+#     awards_share_managers:
+#         load: {path: awards_share_managers.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             awardID: varchar
+#             yearID: float
+#             lgID: varchar
+#             playerID: varchar
+#             pointsWon: float
+#             pointsMax: float
+#             votesFirst: float
+#     awards_share_players:
+#         load: {path: awards_share_players.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             awardID: varchar
+#             yearID: float
+#             lgID: varchar
+#             playerID: varchar
+#             pointsWon: float
+#             pointsMax: float
+#             votesFirst: float
+#     batting_post:
+#         load: {path: batting_post.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             yearID: float
+#             round: varchar
+#             playerID: varchar
+#             teamID: varchar
+#             lgID: varchar
+#             G: float
+#             AB: float
+#             R: float
+#             H: float
+#             2B: float
+#             3B: float
+#             HR: float
+#             RBI: float
+#             SB: float
+#             CS: float
+#             BB: float
+#             SO: float
+#             IBB: float
+#             HBP: float
+#             SH: float
+#             SF: float
+#             GIDP: float
+#     batting:
+#         load: {path: batting.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             playerID: varchar
+#             yearID: float
+#             stint: float
+#             teamID: varchar
+#             lgID: varchar
+#             G: float
+#             AB: float
+#             R: float
+#             H: float
+#             2B: float
+#             3B: float
+#             HR: float
+#             RBI: float
+#             SB: float
+#             CS: float
+#             BB: float
+#             SO: float
+#             IBB: float
+#             HBP: float
+#             SH: float
+#             SF: float
+#             GIDP: float
+#     college_playing:
+#         load: {path: college_playing.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             playerID: varchar
+#             schoolID: varchar
+#             yearID: float
+#     fielding_of_split:
+#         load: {path: fielding_of_split.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             playerID: varchar
+#             yearID: float
+#             stint: float
+#             teamID: varchar
+#             lgID: varchar
+#             POS: varchar
+#             GS: float
+#             G: float
+#             GS: float
+#             InnOuts: float
+#             PO: float
+#             A: float
+#             E: float
+#             DP: float
+#             PB: float
+#             WP: float
+#             SB: float
+#             CS: float
+#             ZR: float
+#     fielding_of:
+#         load: {path: fielding_of.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             playerID: varchar
+#             yearID: float
+#             stint: float
+#             Glf: float
+#             Gcf: float
+#             Grf: float
+#     fielding_post:
+#         load: {path: fielding_post.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             playerID: varchar
+#             yearID: float
+#             teamID: varchar
+#             lgID: varchar
+#             round: varchar
+#             POS: varchar
+#             G: float
+#             GS: float
+#             InnOuts: float
+#             PO: float
+#             A: float
+#             E: float
+#             DP: float
+#             TP: float
+#             PB: float
+#             SB: float
+#             CS: float
+#     fielding:
+#         load: {path: fielding.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             playerID: varchar
+#             yearID: float
+#             stint: float
+#             teamID: varchar
+#             lgID: varchar
+#             POS: varchar
+#             G: float
+#             GS: float
+#             InnOuts: float
+#             PO: float
+#             A: float
+#             E: float
+#             DP: float
+#             PB: float
+#             WP: float
+#             SB: float
+#             CS: float
+#             ZR: float
+#     hall_of_fame:
+#         load: {path: hall_of_fame.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             playerID: varchar
+#             yearID: float
+#             votedBy: varchar
+#             ballots: float
+#             needed: float
+#             votes: float
+#             inducted: varchar
+#             category: varchar
+#             needed_note: varchar
+#     home_games:
+#         load: {path: home_games.tsv.gz, sep: "\t", compression: gzip}
+#         #This table uses '.' notation, manually swaped out for '_'
+#         schema:
+#             year_key: float
+#             league_key: varchar
+#             team_key: varchar
+#             park_key: varchar
+#             span_first: date
+#             span_last: date
+#             games: float
+#             openings: float
+#             attendance: float
+#     managers_half:
+#         load: {path: managers_half.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             playerID: varchar
+#             yearID: float
+#             teamID: varchar
+#             lgID: varchar
+#             inseason: float
+#             half: float
+#             G: float
+#             W: float
+#             L: float
+#             rank: float
+#     managers:
+#         load: {path: managers.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             playerID: varchar
+#             yearID: float
+#             teamID: varchar
+#             lgID: varchar
+#             inseason: float
+#             G: float
+#             W: float
+#             L: float
+#             rank: float
+#             plyrMgr: varchar
+#     parks:
+#         load: {path: parks.tsv.gz, sep: "\t", compression: gzip}
+#         #This table uses '.' notation, manually swaped out for '_'
+#         schema:
+#             park_key: varchar
+#             park_name: varchar
+#             park_alias: varchar
+#             city: varchar
+#             state: varchar
+#             country: varchar
+#     people:
+#         load: {path: people.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             playerID: varchar
+#             birthYear: float
+#             birthMonth: float
+#             birthDay: float
+#             birthCountry: varchar
+#             birthState: varchar
+#             birthCity: varchar
+#             deathYear: float
+#             deathMonth: float
+#             deathDay: float
+#             deathCountry: varchar
+#             deathState: varchar
+#             deathCity: varchar
+#             nameFirst: varchar
+#             nameLast: varchar
+#             nameGiven: varchar
+#             weight: float
+#             height: float
+#             bats: varchar
+#             throws: varchar
+#             debut: date
+#             finalGame: date
+#             retroID: varchar
+#             bbrefID: varchar
+#     pitching_post:
+#         load: {path: pitching_post.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             playerID: varchar
+#             yearID: float
+#             round: varchar
+#             teamID: varchar
+#             lgID: varchar
+#             W: float
+#             L: float
+#             G: float
+#             GS: float
+#             CG: float
+#             SHO: float
+#             SV: float
+#             IPouts: float
+#             H: float
+#             ER: float
+#             HR: float
+#             BB: float
+#             SO: float
+#             BAOpp: float
+#             ERA: float
+#             IBB: float
+#             WP: float
+#             HBP: float
+#             BK: float
+#             BFP: float
+#             GF: float
+#             R: float
+#             SH: float
+#             SF: float
+#             GIDP: float
+#     pitching:
+#         load: {path: pitching.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             playerID: varchar
+#             yearID: float
+#             stint: float
+#             teamID: varchar
+#             lgID: varchar
+#             W: float
+#             L: float
+#             G: float
+#             GS: float
+#             CG: float
+#             SHO: float
+#             SV: float
+#             IPouts: float
+#             H: float
+#             ER: float
+#             HR: float
+#             BB: float
+#             SO: float
+#             BAOpp: float
+#             ERA: float
+#             IBB: float
+#             WP: float
+#             HBP: float
+#             BK: float
+#             BFP: float
+#             GF: float
+#             R: float
+#             SH: float
+#             SF: float
+#             GIDP: float
+#     salaries:
+#         load: {path: salaries.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             yearID: float
+#             teamID: varchar
+#             lgID: varchar
+#             playerID: varchar
+#             salary: float
+#     schools:
+#         load: {path: schools.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             schoolID: varchar
+#             name_full: varchar
+#             city: varchar
+#             state: varchar
+#             country: varchar
+#     series_post:
+#         load: {path: series_post.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             yearID: float
+#             round: varchar
+#             teamIDwinner: varchar
+#             lgIDwinner: varchar
+#             teamIDloser: varchar
+#             lgIDloser: varchar
+#             wins: float
+#             losses: float
+#             ties: float
+#     teams_franchises:
+#         load: {path: teams_franchises.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             franchID: varchar
+#             franchName: varchar
+#             active: varchar
+#             NAassoc: varchar
+#     teams_half:
+#         load: {path: teams_half.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             yearID: float
+#             lgID: varchar
+#             teamID: varchar
+#             Half: float
+#             divID: varchar
+#             DivWin: varchar
+#             Rank: float
+#             G: float
+#             W: float
+#             L: float
+#     teams:
+#         load: {path: teams.tsv.gz, sep: "\t", compression: gzip}
+#         schema:
+#             yearID: float
+#             lgID: varchar
+#             teamID: varchar
+#             franchID: varchar
+#             divID: varchar
+#             Rank: float
+#             G: float
+#             Ghome: float
+#             W: float
+#             L: float
+#             DivWin: varchar
+#             WCWin: varchar
+#             LgWin: varchar
+#             WSWin: varchar
+#             R: float
+#             AB: float
+#             H: float
+#             2B: float
+#             3B: float
+#             HR: float
+#             BB: float
+#             SO: float
+#             SB: float
+#             CS: float
+#             HBP: float
+#             SF: float
+#             RA: float
+#             ER: float
+#             ERA: float
+#             CG: float
+#             SHO: float
+#             SV: float
+#             IPouts: float
+#             HA: float
+#             HRA: float
+#             BBA: float
+#             SOA: float
+#             E: float
+#             DP: float
+#             FP: float
+#             name: varchar
+#             park: varchar
+#             attendance: varchar
+#             BPF: float
+#             PPF: float
+#             teamIDBR: varchar
+#             teamdIDlahman: varchar
+#             teamIDretro: varchar
 
-lahman:
-    # all_star_full:
-    #     load: {path: all_star_full.tsv.gz, sep: "\t", compression: gzip}
-    #     schema:
-    #       playerID: varchar
-    #       yearID: float
-    #       gameNum: float
-    #       gameID: varchar
-    #       lgID: varchar
-    #       teamID: varchar
-    #       GP: float
-    #       startingPos: float
-    # appearances:
-    #     load: {path: appearances.tsv.gz, sep: "\t", compression: gzip}
-    #     schema:
-    #         yearID: float
-    #         teamID: varchar
-    #         lgID: varchar
-    #         playerID: varchar
-    #         G_all: float
-    #         GS: float
-    #         G_batting: float
-    #         G_defense: float
-    #         G_p: float
-    #         G_c: float
-    #         G_1b: float
-    #         G_2b: float
-    #         G_3b: float
-    #         G_ss: float
-    #         G_lf: float
-    #         G_cf: float
-    #         G_rf: float
-    #         G_of: float
-    #         G_dh: float
-    #         G_ph: float
-    #         G_pr: float
-    # awards_managers:
-    #     load: {path: awards_managers.tsv.gz, sep: "\t", compression: gzip}
-    #     schema:
-    #         playerID: varchar
-    #         awardID: varchar
-    #         yearID: float
-    #         lgID: varchar
-    #         tie: varchar
-    #         notes: varchar
-    # awards_players:
-    #     load: {path: awards_players.tsv.gz, sep: "\t", compression: gzip}
-    #     schema:
-    #         playerID: varchar
-    #         awardID: varchar
-    #         yearID: float
-    #         lgID: varchar
-    #         tie: varchar
-    #         notes: varchar
-    # awards_share_managers:
-    #     load: {path: awards_share_managers.tsv.gz, sep: "\t", compression: gzip}
-    #     schema:
-    #         awardID: varchar
-    #         yearID: float
-    #         lgID: varchar
-    #         playerID: varchar
-    #         pointsWon: float
-    #         pointsMax: float
-    #         votesFirst: float
-    # awards_share_players:
-    #     load: {path: awards_share_players.tsv.gz, sep: "\t", compression: gzip}
-    #     schema:
-    #         awardID: varchar
-    #         yearID: float
-    #         lgID: varchar
-    #         playerID: varchar
-    #         pointsWon: float
-    #         pointsMax: float
-    #         votesFirst: float
-    # batting_post:
-    #     load: {path: batting_post.tsv.gz, sep: "\t", compression: gzip}
-    #     schema:
-    #         yearID: float
-    #         round: varchar
-    #         playerID: varchar
-    #         teamID: varchar
-    #         lgID: varchar
-    #         G: float
-    #         AB: float
-    #         R: float
-    #         H: float
-    #         2B: float
-    #         3B: float
-    #         HR: float
-    #         RBI: float
-    #         SB: float
-    #         CS: float
-    #         BB: float
-    #         SO: float
-    #         IBB: float
-    #         HBP: float
-    #         SH: float
-    #         SF: float
-    #         GIDP: float
-    # batting:
-    #     load: {path: batting.tsv.gz, sep: "\t", compression: gzip}
-    #     schema:
-    #         playerID: varchar
-    #         yearID: float
-    #         stint: float
-    #         teamID: varchar
-    #         lgID: varchar
-    #         G: float
-    #         AB: float
-    #         R: float
-    #         H: float
-    #         2B: float
-    #         3B: float
-    #         HR: float
-    #         RBI: float
-    #         SB: float
-    #         CS: float
-    #         BB: float
-    #         SO: float
-    #         IBB: float
-    #         HBP: float
-    #         SH: float
-    #         SF: float
-    #         GIDP: float
-    # college_playing:
-    #     load: {path: college_playing.tsv.gz, sep: "\t", compression: gzip}
-    #     schema:
-    #         playerID: varchar
-    #         schoolID: varchar
-    #         yearID: float
-    # fielding_of_split:
-    #     load: {path: fielding_of_split.tsv.gz, sep: "\t", compression: gzip}
-    #     schema:
-    #         playerID: varchar
-    #         yearID: float
-    #         stint: float
-    #         teamID: varchar
-    #         lgID: varchar
-    #         POS: varchar
-    #         GS: float
-    #         G: float
-    #         GS: float
-    #         InnOuts: float
-    #         PO: float
-    #         A: float
-    #         E: float
-    #         DP: float
-    #         PB: float
-    #         WP: float
-    #         SB: float
-    #         CS: float
-    #         ZR: float
-    # fielding_of:
-    #     load: {path: fielding_of.tsv.gz, sep: "\t", compression: gzip}
-    #     schema:
-    #         playerID: varchar
-    #         yearID: float
-    #         stint: float
-    #         Glf: float
-    #         Gcf: float
-    #         Grf: float
-    # fielding_post:
-    #     load: {path: fielding_post.tsv.gz, sep: "\t", compression: gzip}
-    #     schema:
-    #         playerID: varchar
-    #         yearID: float
-    #         teamID: varchar
-    #         lgID: varchar
-    #         round: varchar
-    #         POS: varchar
-    #         G: float
-    #         GS: float
-    #         InnOuts: float
-    #         PO: float
-    #         A: float
-    #         E: float
-    #         DP: float
-    #         TP: float
-    #         PB: float
-    #         SB: float
-    #         CS: float
-    # fielding:
-    #     load: {path: fielding.tsv.gz, sep: "\t", compression: gzip}
-    #     schema:
-    #         playerID: varchar
-    #         yearID: float
-    #         stint: float
-    #         teamID: varchar
-    #         lgID: varchar
-    #         POS: varchar
-    #         G: float
-    #         GS: float
-    #         InnOuts: float
-    #         PO: float
-    #         A: float
-    #         E: float
-    #         DP: float
-    #         PB: float
-    #         WP: float
-    #         SB: float
-    #         CS: float
-    #         ZR: float
-    # hall_of_fame:
-    #     load: {path: hall_of_fame.tsv.gz, sep: "\t", compression: gzip}
-    #     schema:
-    #         playerID: varchar
-    #         yearID: float
-    #         votedBy: varchar
-    #         ballots: float
-    #         needed: float
-    #         votes: float
-    #         inducted: varchar
-    #         category: varchar
-    #         needed_note: varchar
-    # home_games:
-    #     load: {path: home_games.tsv.gz, sep: "\t", compression: gzip}
-    #     #This table uses '.' notation, manually swaped out for '_'
-    #     schema:
-    #         year_key: float
-    #         league_key: varchar
-    #         team_key: varchar
-    #         park_key: varchar
-    #         span_first: date
-    #         span_last: date
-    #         games: float
-    #         openings: float
-    #         attendance: float
-    # managers_half:
-    #     load: {path: managers_half.tsv.gz, sep: "\t", compression: gzip}
-    #     schema:
-    #         playerID: varchar
-    #         yearID: float
-    #         teamID: varchar
-    #         lgID: varchar
-    #         inseason: float
-    #         half: float
-    #         G: float
-    #         W: float
-    #         L: float
-    #         rank: float
-    # managers:
-    #     load: {path: managers.tsv.gz, sep: "\t", compression: gzip}
-    #     schema:
-    #         playerID: varchar
-    #         yearID: float
-    #         teamID: varchar
-    #         lgID: varchar
-    #         inseason: float
-    #         G: float
-    #         W: float
-    #         L: float
-    #         rank: float
-    #         plyrMgr: varchar
-    # parks:
-    #     load: {path: parks.tsv.gz, sep: "\t", compression: gzip}
-    #     #This table uses '.' notation, manually swaped out for '_'
-    #     schema:
-    #         park_key: varchar
-    #         park_name: varchar
-    #         park_alias: varchar
-    #         city: varchar
-    #         state: varchar
-    #         country: varchar
-    people:
-        load: {path: people.tsv.gz, sep: "\t", compression: gzip}
+retrosheet:
+    season_game_logs:
+        load: {path: season_game_logs.tsv.gz, sep: "\t", compression: gzip}
         schema:
-            playerID: varchar
-            birthYear: float
-            birthMonth: float
-            birthDay: float
-            birthCountry: varchar
-            birthState: varchar
-            birthCity: varchar
-            deathYear: float
-            deathMonth: float
-            deathDay: float
-            deathCountry: varchar
-            deathState: varchar
-            deathCity: varchar
-            nameFirst: varchar
-            nameLast: varchar
-            nameGiven: varchar
-            weight: float
-            height: float
-            bats: varchar
-            throws: varchar
-            debut: date
-            finalGame: date
-            retroID: varchar
-            bbrefID: varchar
-    pitching_post:
-        load: {path: pitching_post.tsv.gz, sep: "\t", compression: gzip}
-        schema:
-            playerID: varchar
-            yearID: float
-            round: varchar
-            teamID: varchar
-            lgID: varchar
-            W: float
-            L: float
-            G: float
-            GS: float
-            CG: float
-            SHO: float
-            SV: float
-            IPouts: float
-            H: float
-            ER: float
-            HR: float
-            BB: float
-            SO: float
-            BAOpp: float
-            ERA: float
-            IBB: float
-            WP: float
-            HBP: float
-            BK: float
-            BFP: float
-            GF: float
-            R: float
-            SH: float
-            SF: float
-            GIDP: float
-    pitching:
-        load: {path: pitching.tsv.gz, sep: "\t", compression: gzip}
-        schema:
-            playerID: varchar
-            yearID: float
-            stint: float
-            teamID: varchar
-            lgID: varchar
-            W: float
-            L: float
-            G: float
-            GS: float
-            CG: float
-            SHO: float
-            SV: float
-            IPouts: float
-            H: float
-            ER: float
-            HR: float
-            BB: float
-            SO: float
-            BAOpp: float
-            ERA: float
-            IBB: float
-            WP: float
-            HBP: float
-            BK: float
-            BFP: float
-            GF: float
-            R: float
-            SH: float
-            SF: float
-            GIDP: float
-    salaries:
-        load: {path: salaries.tsv.gz, sep: "\t", compression: gzip}
-        schema:
-            yearID: float
-            teamID: varchar
-            lgID: varchar
-            playerID: varchar
-            salary: float
-    schools:
-        load: {path: schools.tsv.gz, sep: "\t", compression: gzip}
-        schema:
-            schoolID: varchar
-            name_full: varchar
-            city: varchar
-            state: varchar
-            country: varchar
-    series_post:
-        load: {path: series_post.tsv.gz, sep: "\t", compression: gzip}
-        schema:
-            yearID: float
-            round: varchar
-            teamIDwinner: varchar
-            lgIDwinner: varchar
-            teamIDloser: varchar
-            lgIDloser: varchar
-            wins: float
-            losses: float
-            ties: float
-    teams_franchises:
-        load: {path: teams_franchises.tsv.gz, sep: "\t", compression: gzip}
-        schema:
-            franchID: varchar
-            franchName: varchar
-            active: varchar
-            NAassoc: varchar
-    teams_half:
-        load: {path: teams_half.tsv.gz, sep: "\t", compression: gzip}
-        schema:
-            yearID: float
-            lgID: varchar
-            teamID: varchar
-            Half: float
-            divID: varchar
-            DivWin: varchar
-            Rank: float
-            G: float
-            W: float
-            L: float
-    teams:
-        load: {path: teams.tsv.gz, sep: "\t", compression: gzip}
-        schema:
-            yearID: float
-            lgID: varchar
-            teamID: varchar
-            franchID: varchar
-            divID: varchar
-            Rank: float
-            G: float
-            Ghome: float
-            W: float
-            L: float
-            DivWin: varchar
-            WCWin: varchar
-            LgWin: varchar
-            WSWin: varchar
-            R: float
-            AB: float
-            H: float
-            2B: float
-            3B: float
-            HR: float
-            BB: float
-            SO: float
-            SB: float
-            CS: float
-            HBP: float
-            SF: float
-            RA: float
-            ER: float
-            ERA: float
-            CG: float
-            SHO: float
-            SV: float
-            IPouts: float
-            HA: float
-            HRA: float
-            BBA: float
-            SOA: float
-            E: float
-            DP: float
-            FP: float
-            name: varchar
-            park: varchar
-            attendance: varchar
-            BPF: float
-            PPF: float
-            teamIDBR: varchar
-            teamdIDlahman: varchar
-            teamIDretro: varchar
+            date: date
+            game_num: float
+            day_of_week: varchar
+            visiting_team: varchar
+            visiting_team_league: varchar
+            visiting_team_game_num: float
+            home_team: varchar
+            home_team_league: varchar
+            home_team_game_num: float
+            visiting_score: float
+            home_score: float
+            num_outs: float
+            day_night: varchar
+            completion_info: varchar
+            forfeit_info: varchar
+            protest_info: varchar
+            park_id: varchar
+            attendance: float
+            time_of_game_minutes: float
+            visiting_line_score: varchar
+            home_line_score: varchar
+            visiting_abs: float
+            visiting_hits: float
+            visiting_doubles: float
+            visiting_triples: float
+            visiting_homeruns: float
+            visiting_rbi: float
+            visiting_sac_hits: float
+            visiting_sac_flies: float
+            visiting_hbp: float
+            visiting_bb: float
+            visiting_iw: float
+            visiting_k: float
+            visiting_sb: float
+            visiting_cs: float
+            visiting_gdp: float
+            visiting_ci: float
+            visiting_lob: float
+            visiting_pitchers_used: float
+            visiting_individual_er: float
+            visiting_er: float
+            visiting_wp: float
+            visiting_balks: float
+            visiting_po: float
+            visiting_assists: float
+            visiting_errors: float
+            visiting_pb: float
+            visiting_dp: float
+            visiting_tp: float
+            home_abs: float
+            home_hits: float
+            home_doubles: float
+            home_triples: float
+            home_homeruns: float
+            home_rbi: float
+            home_sac_hits: float
+            home_sac_flies: float
+            home_hbp: float
+            home_bb: float
+            home_iw: float
+            home_k: float
+            home_sb: float
+            home_cs: float
+            home_gdp: float
+            home_ci: float
+            home_lob: float
+            home_pitchers_used: float
+            home_individual_er: float
+            home_er: float
+            home_wp: float
+            home_balks: float
+            home_po: float
+            home_assists: float
+            home_errors: float
+            home_pb: float
+            home_dp: float
+            home_tp: float
+            ump_home_id: varchar
+            ump_home_name: varchar
+            ump_first_id: varchar
+            ump_first_name: varchar
+            ump_second_id: varchar
+            ump_second_name: varchar
+            ump_third_id: varchar
+            ump_third_name: varchar
+            ump_lf_id: varchar
+            ump_lf_name: varchar
+            ump_rf_id: varchar
+            ump_rf_name: varchar
+            visiting_manager_id: varchar
+            visiting_manager_name: varchar
+            home_manager_id: varchar
+            home_manager_name: varchar
+            winning_pitcher_id: varchar
+            winning_pitcher_name: varchar
+            losing_pitcher_id: varchar
+            losing_pitcher_name: varchar
+            save_pitcher_id: varchar
+            save_pitcher_name: varchar
+            game_winning_rbi_id: varchar
+            game_winning_rbi_name: varchar
+            visiting_starting_pitcher_id: varchar
+            visiting_starting_pitcher_name: varchar
+            home_starting_pitcher_id: varchar
+            home_starting_pitcher_name: varchar
+            visiting_1_id: varchar
+            visiting_1_name: varchar
+            visiting_1_pos: float
+            visiting_2_id: varchar
+            visiting_2_name: varchar
+            visiting_2_pos: float
+            visiting_2_id: varchar
+            visiting_3_id: varchar
+            visiting_3_name: varchar
+            visiting_3_pos: float
+            visiting_4_id: varchar
+            visiting_4_name: varchar
+            visiting_4_pos: float
+            visiting_5_id: varchar
+            visiting_5_name: varchar
+            visiting_5_pos: float
+            visiting_6_id: varchar
+            visiting_6_name: varchar
+            visiting_6_pos: float
+            visiting_7_id: varchar
+            visiting_7_name: varchar
+            visiting_7_pos: float
+            visiting_8_id: varchar
+            visiting_8_name: varchar
+            visiting_8_pos: float
+            visiting_9_id: varchar
+            visiting_9_name: varchar
+            visiting_9_pos: float
+            home_1_id: varchar
+            home_1_name: varchar
+            home_1_pos: float
+            home_2_id: varchar
+            home_2_name: varchar
+            home_2_pos: float
+            home_3_id: varchar
+            home_3_name: varchar
+            home_3_pos: float
+            home_4_id: varchar
+            home_4_name: varchar
+            home_4_pos: float
+            home_5_id: varchar
+            home_5_name: varchar
+            home_5_pos: float
+            home_6_id: varchar
+            home_6_name: varchar
+            home_6_pos: float
+            home_7_id: varchar
+            home_7_name: varchar
+            home_7_pos: float
+            home_8_id: varchar
+            home_8_name: varchar
+            home_8_pos: float
+            home_9_id: varchar
+            home_9_name: varchar
+            home_9_pos: float
+            misc: varchar
+            acquisition_info: varchar
+
 
     
