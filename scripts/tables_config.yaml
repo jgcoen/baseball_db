@@ -457,7 +457,7 @@
 retrosheet:
     season_game_logs:
         load: {path: season_game_logs.tsv.gz, sep: "\t", compression: gzip}
-        schema:
+        schema: &game_log_config
             date: date
             game_num: float
             day_of_week: varchar
@@ -620,6 +620,36 @@ retrosheet:
             home_9_pos: float
             misc: varchar
             acquisition_info: varchar
+    all_star_game_logs:
+        load: {path: all_star_game_logs.tsv.gz, sep: "\t", compression: gzip}
+        schema: *game_log_config
+    division_series_logs:
+        load: {path: division_series_logs.tsv.gz, sep: "\t", compression: gzip}
+        schema: *game_log_config
+    lcs_logs:
+        load: {path: lcs_logs.tsv.gz, sep: "\t", compression: gzip}
+        schema: *game_log_config
+    wild_card_logs:
+        load: {path: wild_card_logs.tsv.gz, sep: "\t", compression: gzip}
+        schema: *game_log_config
+    world_series_logs:
+        load: {path: world_series_logs.tsv.gz, sep: "\t", compression: gzip}
+        schema: *game_log_config
+    park_codes:
+        load: {path: park_codes.tsv.gz, sep: "\t", compression: gzip}
+        schema:
+            park_id: varchar
+            name: varchar
+            nickname: varchar
+            city: varchar
+            state: varchar
+            open: date
+            close: date
+            league: varchar
+            notes: varchar
+
+
+
 
 
     
