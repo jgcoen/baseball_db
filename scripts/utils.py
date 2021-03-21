@@ -1,11 +1,13 @@
+import logging
+import os
 import random
 import time
-import os
 from typing import Callable
-import logging
-import yaml
+
 import pandas as pd
 import psycopg2
+import yaml
+
 
 def configure_logging():
     """Configures a basic logger with level=logging.INFO"""

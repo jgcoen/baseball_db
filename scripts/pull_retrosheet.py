@@ -1,11 +1,13 @@
-from utils import load_secrets, sleep_random, pull_single_table, configure_logging
-from pybaseball.retrosheet import world_series_logs, all_star_game_logs, wild_card_logs,\
-                                  division_series_logs, lcs_logs, park_codes,\
-                                  season_game_logs
-import numpy as np
-import pandas as pd
 import datetime
 import logging
+
+import numpy as np
+import pandas as pd
+from pybaseball.retrosheet import (all_star_game_logs, division_series_logs,
+                                   lcs_logs, park_codes, season_game_logs,
+                                   wild_card_logs, world_series_logs)
+from utils import (configure_logging, load_secrets, pull_single_table,
+                   sleep_random)
 
 
 def retrosheet_season_coverage():
