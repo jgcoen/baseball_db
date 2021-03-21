@@ -42,7 +42,7 @@ def sleep_random(min_seconds: float=1, max_seconds: float=5) -> None:
 
 def pull_single_table(func: Callable[[],pd.DataFrame], path_prefix: str) -> pd.DataFrame:
     """Pulls data from a pybaseball function that doesn't require an argument
-       and overwrites it to to the path_prefix+func.__name__.tsv
+       and overwrites it to to the path_prefix+func.__name__.tsv.gz
 
     Args:
         func (func): The function that is pulling the data
@@ -56,8 +56,8 @@ def pull_single_table(func: Callable[[],pd.DataFrame], path_prefix: str) -> pd.D
     logging.info(f"Begining to pull {func.__name__} from {source}")
 
     df = func()
-    path = path_prefix+func.__name__+'.tsv'
-    df.to_csv(path, index=False, sep='\t')
+    path = path_prefix+func.__name__+'.tsv.gz'
+    df.to_csv(path, index=False, sep='\t', compression='gzip')
 
     logging.info(f"Pulled {func.__name__} from {source} and wrote it to {path}")
 
