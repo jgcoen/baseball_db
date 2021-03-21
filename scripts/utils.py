@@ -5,10 +5,11 @@ from typing import Callable
 import logging
 import yaml
 import pandas as pd
+import psycopg2
 
 def configure_logging():
     """Configures a basic logger with level=logging.INFO"""
-    return logging.basicConfig(level=logging.INFO)
+    return logging.basicConfig(level=logging.DEBUG, format='%(asctime)s  %(name)s - %(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 
 def load_secrets(path: str='secrets.yaml') -> None:
     """Exports secrets configured in ../secrets.yaml as environment variables
@@ -62,3 +63,11 @@ def pull_single_table(func: Callable[[],pd.DataFrame], path_prefix: str) -> pd.D
     logging.info(f"Pulled {func.__name__} from {source} and wrote it to {path}")
 
     return df
+
+def create_db_connection():
+
+    load_secrets()
+    conn = psycopg2.connect(os.getenv('db_access'))
+    cur = conn.cursor()
+
+    return conn, cur
