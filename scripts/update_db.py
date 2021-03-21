@@ -121,7 +121,7 @@ class Table():
 
         return copy_statement
 
-    def update_table(self,conn,cur) -> None:
+    def update_table(self, conn, cur) -> None:
         """Drops, creates, and copies data into database
 
         Args:
@@ -129,7 +129,7 @@ class Table():
             cur: database cursor
         """
 
-        logging.info(f"Beggining to update {self.table_name}")
+        logging.info(f"Begining to update {self.table_name}")
         #Drop Table
         cur.execute(self.drop_statement)
         conn.commit()
