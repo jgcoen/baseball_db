@@ -14,7 +14,6 @@ lahman:
           teamID: varchar
           GP: float
           startingPos: float
-    
     appearances:
         load:
             path: appearances.tsv.gz
@@ -42,12 +41,19 @@ lahman:
             G_dh: float
             G_ph: float
             G_pr: float
-    
     awards_managers:
         load:
             path: awards_managers.tsv.gz
             sep: "\t"
             compression: gzip
+        schema:
+            playerID: varchar
+            awardID: varchar
+            yearID: float
+            lgID: varchar
+            tie: varchar
+            notes: varchar
+    awards_players:
         schema:
             playerID: varchar
             awardID: varchar
