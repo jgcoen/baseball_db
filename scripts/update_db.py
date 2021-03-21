@@ -2,8 +2,13 @@ import pandas as pd
 import psycopg2
 import yaml
 from typing import List, Mapping
-from utils import load_secrets
+from utils import load_secrets, create_db_connection, configure_logging
 import os
+import logging
+
+logger = logging.getLogger(__name__)
+
+
 
 
 
@@ -12,30 +17,35 @@ class Table():
     def __init__(self, name: str, schema: str, load_config: Mapping[str, str], schema_config: Mapping[str, str]) -> None:
         self.name = name
         self.schema = schema
+        self.table_name = f"{schema}.{name}"
         self.load_config = load_config
         self.schema_config = schema_config
         self.path = self._get_file_path()
-        self.df = self._load_data()
         self.schema_string = self._create_schema()
         self.create_statement = self._create_create_statement()
         self.drop_statement = self._create_drop_statement()
         self.copy_statement = self._create_copy_statement()
 
+
+        #Only call if necessary, could be expensive
+        self.df = None
+
     def _get_file_path(self):
         """ Creates the full path to the table"""
 
-        path = f"data/{self.schema}/{self.load_config.get('path')}"
-        full_path = os.path.abspath(path)
-        print(full_path)
+        relative_path = f"data/{self.schema}/{self.load_config.get('path')}"
+        path = os.path.abspath(relative_path)
+        
         return path
 
     def _load_data(self):
         """Loads the data using pd.read_csv"""
 
-        self.load_config.pop('path')
         df = pd.read_csv(self.path, **self.load_config)
 
-        return df
+        self.df = df
+
+        return None
 
     def _create_schema(self):
 
@@ -50,23 +60,47 @@ class Table():
 
     def _create_create_statement(self):
 
-        create_statement = f"create table {self.schema}.{self.name} {self.schema_string};"
+        create_statement = f"create table if not exists {self.table_name} {self.schema_string}"
 
         return create_statement
-    
+
     def _create_drop_statement(self):
 
-        drop_statement = f"drop table {self.schema}.{self.name}"
+        drop_statement = f"drop table if exists {self.table_name}"
 
         return drop_statement
     
     def _create_copy_statement(self):
 
-        copy_statement = f"copy {self.schema}.{self.name} from '/Users/James/Documents/data_projects/baseball_db/data/lahman/all_star_full.tsv' CSV Header DELIMITER E'\t';"
+        if self.load_config.get('compression',0)=='gzip':
+            from_statement = f"gzip -dc {self.path}"
+        else:
+            from_statement = self.path
 
-        print(copy_statement)
+        copy_statement = f'''copy {self.table_name}
+                            from program '{from_statement}' 
+                            CSV Header DELIMITER E'\t';'''
 
         return copy_statement
+
+    def update_table(self,conn,cur):
+
+        logger.info(f"Beggining to update {self.table_name}")
+        #Drop Table
+        cur.execute(self.drop_statement)
+        conn.commit()
+
+        #Create Table
+        cur.execute(self.create_statement)
+        conn.commit()
+
+        #Copy Table
+        cur.execute(self.copy_statement)
+        conn.commit()
+
+        logger.info(f"Finished updating {self.table_name}")
+
+        return None
 
 def load_config(path: str='scripts/tables_config.yaml') -> Mapping[str, str]:
     """Loads a yaml config from the specified path
@@ -86,9 +120,8 @@ def load_config(path: str='scripts/tables_config.yaml') -> Mapping[str, str]:
 
 
 def main():
-    load_secrets()
-    conn = psycopg2.connect(os.getenv('db_access'))
-    cur = conn.cursor()
+    conn, cur = create_db_connection()
+    configure_logging()
 
     table_configs = load_config()
 
@@ -96,14 +129,8 @@ def main():
         for t in table_configs[s]:
             config = table_configs[s][t]
             table = Table(name=t, schema=s, load_config=config.get('load'), schema_config=config.get('schema'))
-            # cur.execute(table.drop_statement)
-            # conn.commit()
-            # cur.execute(table.create_statement)
-            # conn.commit()
-            # cur.execute(table.copy_statement)
-            # conn.commit()
-
-
+            table.update_table(conn, cur)
+           
 
     cur.close()
     conn.close()
