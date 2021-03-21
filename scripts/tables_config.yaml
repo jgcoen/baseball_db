@@ -403,5 +403,56 @@ lahman:
             G: float
             W: float
             L: float
+    teams:
+        load: {path: teams.tsv.gz, sep: "\t", compression: gzip}
+        schema:
+            yearID: float
+            lgID: varchar
+            teamID: varchar
+            franchID: varchar
+            divID: varchar
+            Rank: float
+            G: float
+            Ghome: float
+            W: float
+            L: float
+            DivWin: varchar
+            WCWin: varchar
+            LgWin: varchar
+            WSWin: varchar
+            R: float
+            AB: float
+            H: float
+            2B: float
+            3B: float
+            HR: float
+            BB: float
+            SO: float
+            SB: float
+            CS: float
+            HBP: float
+            SF: float
+            RA: float
+            ER: float
+            ERA: float
+            CG: float
+            SHO: float
+            SV: float
+            IPouts: float
+            HA: float
+            HRA: float
+            BBA: float
+            SOA: float
+            E: float
+            DP: float
+            FP: float
+            name: varchar
+            park: varchar
+            attendance: varchar
+            BPF: float
+            PPF: float
+            teamIDBR: varchar
+            teamdIDlahman: varchar
+            teamIDretro: varchar
 
     
