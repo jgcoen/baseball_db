@@ -54,7 +54,7 @@ class Table():
 
         col_strings = []
         for col_name, col_dtype in self.schema_config.items():
-            col_string = f"{col_name} {col_dtype}"
+            col_string = f'''"{col_name.lower()}" {col_dtype}'''
             col_strings.append(col_string)
 
         schema_string = f"({', '.join(col_strings)})"
@@ -154,7 +154,6 @@ def load_config(path: str='scripts/tables_config.yaml') -> dict:
 
     Returns:
         config (Mapping): The dictionary from the loaded yaml
-
     """
 
     with open(path) as f:
