@@ -383,4 +383,11 @@ lahman:
             wins: float
             losses: float
             ties: float
+    teams_franchises:
+        load: {path: teams_franchises.tsv.gz, sep: "\t", compression: gzip}
+        schema:
+            franchID: varchar
+            franchName: varchar
+            active: varchar
+            NAassoc: varchar
     
