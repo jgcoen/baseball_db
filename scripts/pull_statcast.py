@@ -1,8 +1,7 @@
 import logging
 
-import pandas as pd
 from multi_year_data_pull import StatcastDataPull
-from pybaseball import cache, statcast
+from pybaseball import cache
 from utils import configure_logging
 
 
