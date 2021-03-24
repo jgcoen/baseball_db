@@ -139,7 +139,6 @@ lahman:
             POS: varchar
             GS: float
             G: float
-            GS: float
             InnOuts: float
             PO: float
             A: float
@@ -569,7 +568,6 @@ retrosheet:
             visiting_2_id: varchar
             visiting_2_name: varchar
             visiting_2_pos: float
-            visiting_2_id: varchar
             visiting_3_id: varchar
             visiting_3_name: varchar
             visiting_3_pos: float
@@ -678,9 +676,9 @@ retrosheet:
 
 statcast:
     statcast:
-        load: {path: statcast.tsv.gz, sep: "\t", compression: gzip}
+        load: {path: statcast.tsv.gz , sep: "\t", compression: gzip}
         schema:
-            pitch_type: varchar
+            pitch_type: varchar 
             game_date: date
             release_speed: float
             release_pos_x: float

@@ -12,6 +12,9 @@ from pybaseball.lahman import (all_star_full, appearances, awards_managers,
 from utils import configure_logging, pull_single_table, sleep_random
 
 def main():
+
+    logging.info('Begining to update lahman data')
+
     funcs = [people, parks, all_star_full, appearances, awards_managers,
             awards_players, awards_share_managers, awards_share_players,
             batting, batting_post, college_playing, fielding, fielding_of,
@@ -21,9 +24,9 @@ def main():
 
     for func in funcs:
         sleep_random()
-        logging.info(f"Beginning to pull data from {func}")
         pull_single_table(func, path_prefix='data/lahman/')
 
+    logging.info('Finished updating lahman data')
 
 if __name__ == "__main__":
     configure_logging()

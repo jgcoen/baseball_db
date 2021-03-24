@@ -45,7 +45,7 @@ class MultiYearDataPull:
         """
 
         #Assumes files are in yyyy.tsv.gz format
-        coverage = {int(f.split('.')[0]) for f in os.listdir(self.directory_path)}
+        coverage = {int(f.split('.')[0]) for f in os.listdir(self.directory_path) if 'tsv' in f}
 
         return coverage
 
@@ -74,7 +74,7 @@ class MultiYearDataPull:
 
         logging.info(f"Begining to aggreate data and refresh {self.table_path}")
         files = [f for f in os.listdir(self.directory_path) if 'tsv' in f]
-        dfs = [pd.read_csv(self.directory_path+f,sep='\t', compression='gzip') for f in files]
+        dfs = [pd.read_csv(self.directory_path+f,sep='\t', compression='gzip') for f in files if 'tsv' in f]
         df = pd.concat(dfs)
         df.to_csv(self.table_path, sep='\t', index=False, compression='gzip')
         logging.info(f"Finished aggregating data and refreshing {self.table_path}")
@@ -82,7 +82,7 @@ class MultiYearDataPull:
     def _remove_most_recent_data(self) -> None:
         """Removes the most recent data in self.directory_path to refresh"""
 
-        coverage = {int(f.split('.')[0]) for f in os.listdir(self.directory_path)}
+        coverage = {int(f.split('.')[0]) for f in os.listdir(self.directory_path) if 'tsv' in f}
         max_year = max(coverage)
         most_recent_path = f"{self.directory_path}{max_year}.tsv.gz"
         os.remove(most_recent_path)
@@ -100,6 +100,8 @@ class MultiYearDataPull:
             - aggregate the data in the directory to the self.path
         """
 
+        logging.info(f"Begining to pull update the data for {self.name}")
+
         #Remove Most Recent Data
         self._remove_most_recent_data()
 
@@ -109,6 +111,8 @@ class MultiYearDataPull:
 
         self._pull_data()
         self._aggregate_data()
+
+        logging.info(f"Finished updating the data for {self.name}")
 
 class StatcastDataPull(MultiYearDataPull):
 
@@ -159,7 +163,7 @@ class StatcastDataPull(MultiYearDataPull):
         """
 
         #Assumes files are in yyyy.tsv.gz format
-        coverage = {(f.split('.')[0]) for f in os.listdir(self.directory_path)}
+        coverage = {(f.split('.')[0]) for f in os.listdir(self.directory_path) if 'tsv' in f}
 
         return coverage
 
@@ -199,7 +203,7 @@ class StatcastDataPull(MultiYearDataPull):
     def _remove_most_recent_data(self) -> None:
         """Removes the most recent data in self.directory_path to refresh"""
 
-        coverage = {(f.split('.')[0]) for f in os.listdir(self.directory_path)}
+        coverage = {(f.split('.')[0]) for f in os.listdir(self.directory_path) if 'tsv' in f}
         max_date = max(coverage)
         most_recent_path = f"{self.directory_path}{max_date}.tsv.gz"
         os.remove(most_recent_path)

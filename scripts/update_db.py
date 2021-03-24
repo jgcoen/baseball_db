@@ -163,9 +163,10 @@ def load_config(path: str='scripts/tables_config.yaml') -> dict:
 
 
 def main():
+
+    logging.info('Begining to update the database')
+
     conn, cur = create_db_connection()
-
-
     config = load_config()
 
     for schema, schema_config in config.items():
@@ -175,6 +176,8 @@ def main():
 
     cur.close()
     conn.close()
+
+    logging.info('Finished updating the database')
 
 if __name__ == "__main__":
     configure_logging()

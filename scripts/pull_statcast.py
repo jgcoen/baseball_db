@@ -1,6 +1,6 @@
 import logging
 
-from multi_year_data_pull import StatcastDataPull
+from data_pull_classes import StatcastDataPull
 from pybaseball import cache
 from utils import configure_logging
 
@@ -11,6 +11,7 @@ def main():
     logging.info('Beginning to update statcast data')
     _statcast = StatcastDataPull(limit=12)
     _statcast.update_table()
+    logging.info('Finished updating statcast data')
 
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@ from pybaseball.retrosheet import (all_star_game_logs, division_series_logs,
                                    wild_card_logs, world_series_logs, schedules, rosters)
 from utils import (configure_logging, load_secrets, pull_single_table,
         sleep_random)
-from multi_year_data_pull import MultiYearDataPull
+from data_pull_classes import MultiYearDataPull
 
 
 def retrosheet_season_coverage():
@@ -37,7 +37,7 @@ def pull_season_game_logs(limit: int=10):
         df.to_csv(path, sep='\t', compression='gzip', index=False)
 
 def concat_tables():
-    
+
     directory = 'data/retrosheet/season_game_logs_dir/'
 
     files = [f for f in os.listdir(directory) if 'tsv' in f]
@@ -47,6 +47,9 @@ def concat_tables():
     df.to_csv('data/retrosheet/season_game_logs.tsv.gz', sep='\t', index=False, compression='gzip')
 
 def main():
+
+    logging.info('Begining to pull retrosheet data')
+
     load_secrets()
 
     single_table_funcs = [world_series_logs, all_star_game_logs, wild_card_logs,
@@ -64,6 +67,8 @@ def main():
 
     _rosters = MultiYearDataPull(name='rosters', schema ='retrosheet', func=rosters, min_year=1871, limit=10)
     _rosters.update_table()
+
+    logging.info('Finished pulling retrosheet data')
 
 if __name__ == "__main__":
     configure_logging()
