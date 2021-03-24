@@ -44,30 +44,25 @@ def concat_tables():
     dfs = [pd.read_csv(directory+f,sep='\t', compression='gzip') for f in files]
 
     df = pd.concat(dfs)
-    
     df.to_csv('data/retrosheet/season_game_logs.tsv.gz', sep='\t', index=False, compression='gzip')
-
-
-
 
 def main():
     load_secrets()
 
-    # single_table_funcs = [world_series_logs, all_star_game_logs, wild_card_logs,
-    #                               division_series_logs, lcs_logs, park_codes]
+    single_table_funcs = [world_series_logs, all_star_game_logs, wild_card_logs,
+                                  division_series_logs, lcs_logs, park_codes]
 
-    # for func in single_table_funcs:
-    #     sleep_random()
-    #     pull_single_table(func,path_prefix='data/retrosheet/')
+    for func in single_table_funcs:
+        sleep_random()
+        pull_single_table(func,path_prefix='data/retrosheet/')
 
-    # _season_game_logs = MultiYearDataPull(name='season_game_logs', schema ='retrosheet', func=season_game_logs, min_year=1871, limit=70)
-    # _season_game_logs.update_table()
+    _season_game_logs = MultiYearDataPull(name='season_game_logs', schema ='retrosheet', func=season_game_logs, min_year=1871, limit=70)
+    _season_game_logs.update_table()
 
-    _schedules = MultiYearDataPull(name='schedules', schema ='retrosheet', func=schedules, min_year=1877, limit=40)
+    _schedules = MultiYearDataPull(name='schedules', schema ='retrosheet', func=schedules, min_year=1877, limit=10)
     _schedules.update_table()
 
-
-    _rosters = MultiYearDataPull(name='rosters', schema ='retrosheet', func=rosters, min_year=1871, limit=40)
+    _rosters = MultiYearDataPull(name='rosters', schema ='retrosheet', func=rosters, min_year=1871, limit=10)
     _rosters.update_table()
 
 if __name__ == "__main__":
