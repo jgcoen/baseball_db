@@ -58,7 +58,7 @@ class MultiYearDataPull:
         logging.info(f"There are {len(outstanding_years)} years to pull, pulling {min([self.limit,len(outstanding_years)])} now")
 
         for year in outstanding_years[:self.limit]:
-            sleep_random()
+            sleep_random(min_seconds=5, max_seconds=10)
             year_path = f"{self.directory_path}{year}.tsv.gz"
 
             try:
@@ -83,11 +83,15 @@ class MultiYearDataPull:
         """Removes the most recent data in self.directory_path to refresh"""
 
         coverage = {int(f.split('.')[0]) for f in os.listdir(self.directory_path) if 'tsv' in f}
-        max_year = max(coverage)
-        most_recent_path = f"{self.directory_path}{max_year}.tsv.gz"
-        os.remove(most_recent_path)
 
-        logging.info(f"Just removed {most_recent_path} to refresh data for {self.name}")
+        if coverage == {}:
+            max_year = max(coverage)
+            most_recent_path = f"{self.directory_path}{max_year}.tsv.gz"
+            os.remove(most_recent_path)
+
+            logging.info(f"Just removed {most_recent_path} to refresh data for {self.name}")
+        else:
+            logging.info('There is no data to remove')
 
 
     def update_table(self):
