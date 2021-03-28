@@ -51,10 +51,16 @@ class Table():
             (playerID varchar, yearID float, gameNum float, gameID varchar,
              lgID varchar, teamID varchar, GP float, startingPos float)
         """
+        conversion_dict =  {'float64': 'float',
+                            'int64': 'float',
+                            'object': 'varchar'}
+
+        df = pd.read_csv(self.path, sep='\t', compression='gzip', low_memory=False, nrows=40000)
+        schema_dict = {c: conversion_dict[str(df[c].dtype)] for c in df.columns}
 
         col_strings = []
-        for col_name, col_dtype in self.schema_config.items():
-            col_string = f'''"{col_name.lower()}" {col_dtype}'''
+        for col_name, col_dtype in schema_dict.items():
+            col_string = f'''"{col_name.lower().replace('.','_')}" {col_dtype}'''
             col_strings.append(col_string)
 
         schema_string = f"({', '.join(col_strings)})"
@@ -74,6 +80,7 @@ class Table():
         """
 
         create_statement = f"create table if not exists {self.table_name} {self.schema_string}"
+
         return create_statement
 
     def _create_drop_statement(self) -> str:
