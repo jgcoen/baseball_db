@@ -222,8 +222,6 @@ class StatcastDataPull(MultiYearDataPull):
 def main():
 
     o = StatcastDataPull(limit=12)
-    # print(o.update_table())
-    o._remove_most_recent_data()
 if __name__ == "__main__":
     configure_logging()
     main()

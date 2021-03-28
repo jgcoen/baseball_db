@@ -12,7 +12,7 @@ from pybaseball.lahman import (all_star_full, appearances, awards_managers,
 from utils import configure_logging, pull_single_table, sleep_random
 
 def main():
-
+    
     logging.info('Begining to update lahman data')
 
     funcs = [people, parks, all_star_full, appearances, awards_managers,
