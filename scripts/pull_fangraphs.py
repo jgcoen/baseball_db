@@ -3,7 +3,7 @@ from utils import configure_logging
 from pybaseball import batting_stats, pitching_stats, team_batting, \
                        team_fielding, team_pitching
 from data_pull_classes import MultiYearDataPull
-import pandas as pd
+
 def main():
 
     logging.info('Begining to pull fangraphs data')
