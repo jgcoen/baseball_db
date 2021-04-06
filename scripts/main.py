@@ -24,7 +24,7 @@ def main():
 
     update_db.main()
 
-    logging.info('Finished update all the data')
+    logging.info('Finished updating all the data')
 
 if __name__ == "__main__":
     configure_logging()
