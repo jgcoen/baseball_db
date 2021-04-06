@@ -10,12 +10,15 @@ from utils import configure_logging, sleep_random
 
 class MultiYearDataPull:
 
-    def __init__(self, name, schema, func, min_year, limit: int=10):
+    def __init__(self, name, schema, func, min_year, limit: int=10, add_year: bool=False, current_year: bool=False, kwargs: dict={}):
         self.name = name
         self.schema = schema
         self.func = func
         self.min_year = min_year
         self.limit = limit
+        self.add_year = add_year
+        self.current_year = current_year
+        self.kwargs = kwargs
 
         #Paths
         self.table_path = f'data/{schema}/{name}.tsv.gz'
@@ -33,6 +36,10 @@ class MultiYearDataPull:
         """
 
         current_year = datetime.datetime.today().year
+
+        if self.current_year:
+            current_year+=1
+
         potential_coverage = set(np.arange(self.min_year,current_year))
 
         return potential_coverage
@@ -62,7 +69,18 @@ class MultiYearDataPull:
             year_path = f"{self.directory_path}{year}.tsv.gz"
 
             try:
-                df = self.func(year)
+                df = self.func(year, **self.kwargs)
+                
+                #For standings, returns list of dfs
+                if type(df)==list:
+                    df = pd.concat(df)
+                if self.add_year:
+                    df['year'] = year
+                
+                #Remove The weird date empty string from 2016
+                if self.schema=='retrosheet' and self.name=='schedules':
+                    df = df.loc[df['date'].str.len() >1]
+
                 df.to_csv(year_path, index=False, sep='\t', compression='gzip')
 
                 logging.info(f"Wrote data to {year_path}")
@@ -83,8 +101,7 @@ class MultiYearDataPull:
         """Removes the most recent data in self.directory_path to refresh"""
 
         coverage = {int(f.split('.')[0]) for f in os.listdir(self.directory_path) if 'tsv' in f}
-
-        if coverage == {}:
+        if coverage != {}:
             max_year = max(coverage)
             most_recent_path = f"{self.directory_path}{max_year}.tsv.gz"
             os.remove(most_recent_path)
@@ -107,14 +124,14 @@ class MultiYearDataPull:
         logging.info(f"Begining to pull update the data for {self.name}")
 
         #Remove Most Recent Data
-        self._remove_most_recent_data()
+        #self._remove_most_recent_data()
 
         #Coverage
         self.potential_coverage = self._find_potential_coverage()
         self.coverage = self._find_coverage()
 
         self._pull_data()
-        self._aggregate_data()
+        #self._aggregate_data()
 
         logging.info(f"Finished updating the data for {self.name}")
 
