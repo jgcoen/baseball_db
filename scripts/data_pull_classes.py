@@ -70,13 +70,13 @@ class MultiYearDataPull:
 
             try:
                 df = self.func(year, **self.kwargs)
-                
+
                 #For standings, returns list of dfs
-                if type(df)==list:
+                if isinstance(df,list):
                     df = pd.concat(df)
                 if self.add_year:
                     df['year'] = year
-                
+
                 #Remove The weird date empty string from 2016
                 if self.schema=='retrosheet' and self.name=='schedules':
                     df = df.loc[df['date'].str.len() >1]
@@ -238,7 +238,9 @@ class StatcastDataPull(MultiYearDataPull):
 
 def main():
 
-    o = StatcastDataPull(limit=12)
+    s = StatcastDataPull(limit=12)
+    s.update_table()
+
 if __name__ == "__main__":
     configure_logging()
     main()
