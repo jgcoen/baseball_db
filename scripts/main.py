@@ -4,6 +4,7 @@ import pull_lahman
 import pull_retrosheet
 import pull_statcast
 import pull_fangraphs
+import pull_baseball_reference
 import update_db
 from utils import configure_logging, pull_single_table
 from pybaseball import chadwick_register
@@ -17,6 +18,7 @@ def main():
     pull_retrosheet.main()
     pull_fangraphs.main()
     pull_statcast.main()
+    pull_baseball_reference.main()
 
     logging.info('Begining to pull chadwick data')
     pull_single_table(func=chadwick_register, path_prefix='data/chadwick/')
