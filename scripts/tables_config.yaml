@@ -1,94 +1,144 @@
 lahman:
     all_star_full:
-        load: {path: all_star_full.tsv.gz, sep: "\t", compression: gzip}
+        path: all_star_full.tsv.gz
     appearances:
-        load: {path: appearances.tsv.gz, sep: "\t", compression: gzip}
+        path: appearances.tsv.gz
     awards_managers:
-        load: {path: awards_managers.tsv.gz, sep: "\t", compression: gzip}
+        path: awards_managers.tsv.gz
     awards_players:
-        load: {path: awards_players.tsv.gz, sep: "\t", compression: gzip}
+        path: awards_players.tsv.gz
     awards_share_managers:
-        load: {path: awards_share_managers.tsv.gz, sep: "\t", compression: gzip}
+        path: awards_share_managers.tsv.gz
     awards_share_players:
-        load: {path: awards_share_players.tsv.gz, sep: "\t", compression: gzip}
+        path: awards_share_players.tsv.gz
     batting_post:
-        load: {path: batting_post.tsv.gz, sep: "\t", compression: gzip}
+        path: batting_post.tsv.gz
     batting:
-        load: {path: batting.tsv.gz, sep: "\t", compression: gzip}
+        path: batting.tsv.gz
     college_playing:
-        load: {path: college_playing.tsv.gz, sep: "\t", compression: gzip}
+        path: college_playing.tsv.gz
     fielding_of_split:
-        load: {path: fielding_of_split.tsv.gz, sep: "\t", compression: gzip}
+        path: fielding_of_split.tsv.gz
     fielding_of:
-        load: {path: fielding_of.tsv.gz, sep: "\t", compression: gzip}
+        path: fielding_of.tsv.gz
     fielding_post:
-        load: {path: fielding_post.tsv.gz, sep: "\t", compression: gzip}
+        path: fielding_post.tsv.gz
     fielding:
-        load: {path: fielding.tsv.gz, sep: "\t", compression: gzip}
+        path: fielding.tsv.gz
     hall_of_fame:
-        load: {path: hall_of_fame.tsv.gz, sep: "\t", compression: gzip}
+        path: hall_of_fame.tsv.gz
     home_games:
-        load: {path: home_games.tsv.gz, sep: "\t", compression: gzip}
+        path: home_games.tsv.gz
         #This table uses '.' notation, manually swaped out for '_'
     managers_half:
-        load: {path: managers_half.tsv.gz, sep: "\t", compression: gzip}
+        path: managers_half.tsv.gz
     managers:
-        load: {path: managers.tsv.gz, sep: "\t", compression: gzip}
+        path: managers.tsv.gz
     parks:
-        load: {path: parks.tsv.gz, sep: "\t", compression: gzip}
+        path: parks.tsv.gz
     people:
-        load: {path: people.tsv.gz, sep: "\t", compression: gzip}
+        path: people.tsv.gz
     pitching_post:
-        load: {path: pitching_post.tsv.gz, sep: "\t", compression: gzip}
+        path: pitching_post.tsv.gz
     pitching:
-        load: {path: pitching.tsv.gz, sep: "\t", compression: gzip}
+        path: pitching.tsv.gz
     salaries:
-        load: {path: salaries.tsv.gz, sep: "\t", compression: gzip}
+        path: salaries.tsv.gz
     schools:
-        load: {path: schools.tsv.gz, sep: "\t", compression: gzip}
+        path: schools.tsv.gz
     series_post:
-        load: {path: series_post.tsv.gz, sep: "\t", compression: gzip}
+        path: series_post.tsv.gz
     teams_franchises:
-        load: {path: teams_franchises.tsv.gz, sep: "\t", compression: gzip}
+        path: teams_franchises.tsv.gz
     teams_half:
-        load: {path: teams_half.tsv.gz, sep: "\t", compression: gzip}
+        path: teams_half.tsv.gz
     teams:
-        load: {path: teams.tsv.gz, sep: "\t", compression: gzip}
+        path: teams.tsv.gz
 retrosheet:
     season_game_logs:
-        load: {path: season_game_logs.tsv.gz, sep: "\t", compression: gzip}
+        table_type: partitioned
+        directory: season_game_logs_dir
+        iterator: year_date_int
+        partitioned_by: date
+        schema_override: {ump_lf_id: varchar, ump_rf_id: varchar, protest_info: varchar, forfeit_info: varchar}
     all_star_game_logs:
-        load: {path: all_star_game_logs.tsv.gz, sep: "\t", compression: gzip}
+        path: all_star_game_logs.tsv.gz
     division_series_logs:
-        load: {path: division_series_logs.tsv.gz, sep: "\t", compression: gzip}
+        path: division_series_logs.tsv.gz
     lcs_logs:
-        load: {path: lcs_logs.tsv.gz, sep: "\t", compression: gzip}
+        path: lcs_logs.tsv.gz
     wild_card_logs:
-        load: {path: wild_card_logs.tsv.gz, sep: "\t", compression: gzip}
+        path: wild_card_logs.tsv.gz
     world_series_logs:
-        load: {path: world_series_logs.tsv.gz, sep: "\t", compression: gzip}
+        path: world_series_logs.tsv.gz
     park_codes:
-        load: {path: park_codes.tsv.gz, sep: "\t", compression: gzip}
+        path: park_codes.tsv.gz
+    
+#     #check null date
     schedules:
-        load: {path: schedules.tsv.gz, sep: "\t", compression: gzip}
-    #This could be a problem, since there is no year attached
+        table_type: partitioned
+        directory: schedules_dir
+        iterator: year_date_int
+        partitioned_by: date
+        schema_override: {date: varchar, date_of_makeup: varchar}
     roster:
-        load: {path: rosters.tsv.gz, sep: "\t", compression: gzip}
-# statcast:
-#     statcast:
-#         load: {path: statcast.tsv.gz , sep: "\t", compression: gzip}
+        table_type: partitioned
+        directory: rosters_dir
+        iterator: year
+        partitioned_by: year
+statcast:
+    statcast:
+        table_type: partitioned
+        directory: statcast_dir
+        iterator: month
+        partitioned_by: game_date
+        schema_override: {sv_id: varchar}
 
 fangraphs:
     batting_stats:
-        load: {path: batting_stats.tsv.gz, sep: "\t", compression: gzip}
+        table_type: partitioned
+        directory: batting_stats_dir
+        iterator: year
+        partitioned_by: season
     pitching_stats:
-        load: {path: pitching_stats.tsv.gz, sep: "\t", compression: gzip}
+        table_type: partitioned
+        directory: pitching_stats_dir
+        iterator: year
+        partitioned_by: season
     team_batting:
-        load: {path: team_batting.tsv.gz, sep: "\t", compression: gzip}
+        table_type: partitioned
+        directory: team_batting_dir
+        iterator: year
+        partitioned_by: season
     team_pitching:
-        load: {path: team_pitching.tsv.gz, sep: "\t", compression: gzip}
+        table_type: partitioned
+        directory: team_pitching_dir
+        iterator: year
+        partitioned_by: season
     team_fielding:
-        load: {path: team_fielding.tsv.gz, sep: "\t", compression: gzip}
+        table_type: partitioned
+        directory: team_fielding_dir
+        iterator: year
+        partitioned_by: season
 chadwick:
     chadwick_register:
-        load: {path: chadwick_register.tsv.gz, sep: "\t", compression: gzip}
+        path: chadwick_register.tsv.gz
+
+baseball_reference:
+    standings:
+        path: standings.tsv.gz
+    bwar_bat:
+        path: bwar_bat.tsv.gz
+    bwar_pitch:
+        path: bwar_pitch.tsv.gz
+    batting_stats_bref:
+        table_type: partitioned
+        directory: batting_stats_bref_dir
+        iterator: year
+        partitioned_by: year
+    pitching_stats_bref:
+        table_type: partitioned
+        directory: pitching_stats_bref_dir
+        iterator: year
+        partitioned_by: year
+    

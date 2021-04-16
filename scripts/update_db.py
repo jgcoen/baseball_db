@@ -202,14 +202,13 @@ class PartitionedTable():
         self.schema_string = self._create_schema()
         self.main_create_statement = self._main_create_create_statement()
         self.drop_statement = self._create_drop_statement()
-        
 
     def gather_files(self):
-        
+
         files = [self.directory+f for f in os.listdir(self.directory) if 'tsv.gz' in f]
 
         return files
-    
+
     def _create_schema(self):
         """Creates the schema string statement from self.schema_config
 
@@ -238,7 +237,7 @@ class PartitionedTable():
         schema_string = f"({', '.join(col_strings)})"
 
         return schema_string
-    
+
     def _main_create_create_statement(self) -> str:
         """Creates the create table string command
 
@@ -254,7 +253,7 @@ class PartitionedTable():
         create_statement = f"create table if not exists {self.table_name} {self.schema_string} partition by range ({self.partitioned_by})"
 
         return create_statement
-    
+
     def _partition_create_statement(self, partition):
 
         if self.iterator == 'month':
@@ -278,7 +277,7 @@ class PartitionedTable():
                                 partition of {self.table_name} 
                                 for values from ({min_range}) to ({max_range})
                             '''
-        
+
         elif self.iterator == 'year_date':
             # Iterator comes as '2008', but the partitioned_by is a string of dates YYYY-MM-DD
             min_range = f"{partition}-01-01"
@@ -290,7 +289,7 @@ class PartitionedTable():
                                 partition of {self.table_name} 
                                 for values from ('{min_range}') to ('{max_range}')
                             '''
-        
+ 
         elif self.iterator == 'year_date_int':
             # Iterator comes as '2008', but the partitioned_by is a date as an int YYYYMMDD
             min_range = int(f"{partition}0101")
@@ -305,7 +304,7 @@ class PartitionedTable():
         return create_statement
 
     def _partition_copy_statement(self, path, partition):
-        
+
         partition_name = self._create_partition_name(partition)
 
         if self.compression=='gzip':
@@ -316,7 +315,7 @@ class PartitionedTable():
         copy_statement = f'''copy {partition_name}
                             from program '{from_statement}' 
                             CSV Header DELIMITER E'\t';'''
-        
+
         return copy_statement
 
     def _create_partition_name(self, partition):
@@ -327,7 +326,7 @@ class PartitionedTable():
         if self.iterator in ['year', 'year_date', 'year_date_int']:
             # Comes as '2008'
             partition_name = f"{self.schema}.{self.name}_{partition}"
-        
+
         return partition_name
 
     def _create_drop_statement(self) -> str:
@@ -341,10 +340,9 @@ class PartitionedTable():
         """
 
         drop_statement = f"drop table if exists {self.table_name}"
-        
+
         return drop_statement
 
-    
     def update_table(self, conn, cur):
         """Drops, creates, and copies data into database
 
