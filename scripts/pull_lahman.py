@@ -9,7 +9,7 @@ from pybaseball import (all_star_full, appearances, awards_managers,
                         home_games, managers, managers_half, parks, people,
                         pitching, pitching_post, salaries, schools,
                         series_post, teams, teams_franchises, teams_half)
-from utils import configure_logging, pull_single_table, sleep_random
+from utils import configure_logging, sleep_random
 
 
 def main():

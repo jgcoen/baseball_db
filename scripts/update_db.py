@@ -177,7 +177,7 @@ def main():
                 t = PartitionedTable(name=table, schema=schema, config=table_config)
             else:
                 t = Table(name=table, schema=schema, config=table_config)
-            
+
             t.update_table(conn,cur)
 
     cur.close()
@@ -289,7 +289,7 @@ class PartitionedTable():
                                 partition of {self.table_name} 
                                 for values from ('{min_range}') to ('{max_range}')
                             '''
- 
+
         elif self.iterator == 'year_date_int':
             # Iterator comes as '2008', but the partitioned_by is a date as an int YYYYMMDD
             min_range = int(f"{partition}0101")

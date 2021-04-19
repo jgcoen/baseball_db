@@ -2,9 +2,7 @@ import logging
 import os
 import random
 import time
-from typing import Callable
 
-import pandas as pd
 import psycopg2
 import yaml
 

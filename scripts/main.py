@@ -6,12 +6,13 @@ import pull_lahman
 import pull_retrosheet
 import pull_statcast
 import update_db
+from data_pull_classes import pull_single_table
 from pybaseball import chadwick_register
-from utils import configure_logging, pull_single_table
+from utils import configure_logging
 
 
 def main():
-    
+
     logging.info('Begining to update all the data')
 
     pull_lahman.main()
