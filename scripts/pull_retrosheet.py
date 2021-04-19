@@ -9,8 +9,8 @@ from pybaseball.retrosheet import (all_star_game_logs, division_series_logs,
                                    lcs_logs, park_codes, rosters, schedules,
                                    season_game_logs, wild_card_logs,
                                    world_series_logs)
-from utils import (configure_logging, load_secrets,
-                   sleep_random)
+from utils import configure_logging, load_secrets, sleep_random
+
 
 def retrosheet_season_coverage():
     current_year = datetime.datetime.today().year

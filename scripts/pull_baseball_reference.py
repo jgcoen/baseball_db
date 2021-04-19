@@ -5,6 +5,7 @@ from pybaseball import (batting_stats_bref, bwar_bat, bwar_pitch,
                         pitching_stats_bref, standings)
 from utils import configure_logging
 
+
 def main():
 
     logging.info('Beginning to pull standings')

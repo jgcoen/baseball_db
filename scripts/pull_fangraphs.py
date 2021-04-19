@@ -1,8 +1,10 @@
 import logging
-from utils import configure_logging
-from pybaseball import batting_stats, pitching_stats, team_batting, \
-                       team_fielding, team_pitching
+
 from data_pull_classes import MultiYearDataPull
+from pybaseball import (batting_stats, pitching_stats, team_batting,
+                        team_fielding, team_pitching)
+from utils import configure_logging
+
 
 def main():
 

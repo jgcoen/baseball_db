@@ -1,13 +1,13 @@
 import logging
 
+import pull_baseball_reference
+import pull_fangraphs
 import pull_lahman
 import pull_retrosheet
 import pull_statcast
-import pull_fangraphs
-import pull_baseball_reference
 import update_db
-from utils import configure_logging, pull_single_table
 from pybaseball import chadwick_register
+from utils import configure_logging, pull_single_table
 
 
 def main():
