@@ -4,12 +4,12 @@ import os
 
 import numpy as np
 import pandas as pd
-from data_pull_classes import MultiYearDataPull
+from data_pull_classes import MultiYearDataPull, pull_single_table
 from pybaseball.retrosheet import (all_star_game_logs, division_series_logs,
                                    lcs_logs, park_codes, rosters, schedules,
                                    season_game_logs, wild_card_logs,
                                    world_series_logs)
-from utils import (configure_logging, load_secrets, pull_single_table,
+from utils import (configure_logging, load_secrets,
                    sleep_random)
 
 def retrosheet_season_coverage():
@@ -52,20 +52,20 @@ def main():
 
     load_secrets()
 
-    # single_table_funcs = [world_series_logs, all_star_game_logs, wild_card_logs,
-    #                               division_series_logs, lcs_logs, park_codes]
+    single_table_funcs = [world_series_logs, all_star_game_logs, wild_card_logs,
+                                  division_series_logs, lcs_logs, park_codes]
 
-    # for func in single_table_funcs:
-    #     sleep_random()
-    #     pull_single_table(func,path_prefix='data/retrosheet/')
+    for func in single_table_funcs:
+        sleep_random()
+        pull_single_table(func,path_prefix='data/retrosheet/')
 
-    # _season_game_logs = MultiYearDataPull(name='season_game_logs', schema ='retrosheet', func=season_game_logs, min_year=1871, limit=70)
-    # _season_game_logs.update_table()
+    _season_game_logs = MultiYearDataPull(name='season_game_logs', schema ='retrosheet', func=season_game_logs, min_year=1871, limit=70)
+    _season_game_logs.update_table()
 
-    _schedules = MultiYearDataPull(name='schedules', schema ='retrosheet', func=schedules, min_year=1877, limit=40, current_year=True, add_year=True)
+    _schedules = MultiYearDataPull(name='schedules', schema ='retrosheet', func=schedules, min_year=1877, limit=10, current_year=True, add_year=True)
     _schedules.update_table()
 
-    _rosters = MultiYearDataPull(name='rosters', schema ='retrosheet', func=rosters, min_year=1871, limit=40, current_year=True, add_year=True)
+    _rosters = MultiYearDataPull(name='rosters', schema ='retrosheet', func=rosters, min_year=1871, limit=10, current_year=True, add_year=True)
     _rosters.update_table()
 
     logging.info('Finished pulling retrosheet data')

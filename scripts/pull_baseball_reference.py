@@ -1,10 +1,9 @@
 import logging
 
-from data_pull_classes import MultiYearDataPull
+from data_pull_classes import MultiYearDataPull, pull_single_table
 from pybaseball import (batting_stats_bref, bwar_bat, bwar_pitch,
                         pitching_stats_bref, standings)
-from utils import configure_logging, pull_single_table
-
+from utils import configure_logging
 
 def main():
 

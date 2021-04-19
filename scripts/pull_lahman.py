@@ -1,6 +1,6 @@
 import logging
 
-from pybaseball.lahman import (all_star_full, appearances, awards_managers,
+from pybaseball import (all_star_full, appearances, awards_managers,
                                awards_players, awards_share_managers,
                                awards_share_players, batting, batting_post,
                                college_playing, fielding, fielding_of,
@@ -10,6 +10,7 @@ from pybaseball.lahman import (all_star_full, appearances, awards_managers,
                                schools, series_post, teams, teams_franchises,
                                teams_half)
 from utils import configure_logging, pull_single_table, sleep_random
+from data_pull_classes import pull_single_table
 
 def main():
 
