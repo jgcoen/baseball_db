@@ -5,7 +5,7 @@ from typing import Callable
 
 import numpy as np
 import pandas as pd
-from pybaseball import statcast
+from pybaseball import statcast, amateur_draft
 from utils import configure_logging, sleep_random
 
 
@@ -70,9 +70,24 @@ class MultiYearDataPull:
             year_path = f"{self.directory_path}{year}.tsv.gz"
 
             try:
-                df = self.func(year, **self.kwargs)
+                #This is amateur draft specifc
+                if self.func==amateur_draft:
+                    _round = 1
+                    df = []
+                    while _round <=100: #Max 100 rounds
+                        sleep_random(min_seconds=1, max_seconds=2)
+                        try:
+                            round_df = self.func(year,_round, **self.kwargs)
+                            logging.info(f"Pulled data from the draft, year={year}, round={_round}")
+                            round_df['round'] = _round
+                            df.append(round_df)
+                            _round += 1
+                        except ImportError: #Now the draft is over, can move on
+                            break
+                else:
+                    df = self.func(year, **self.kwargs)
 
-                #For standings, returns list of dfs
+                #For standings and amateur draft, returns list of dfs
                 if isinstance(df,list):
                     df = pd.concat(df)
                 if self.add_year:
@@ -262,8 +277,9 @@ def pull_single_table(func: Callable[[],pd.DataFrame], path_prefix: str, kwargs=
 
 def main():
 
-    s = StatcastDataPull(limit=12)
-    s.update_table()
+    t = MultiYearDataPull(name='amateur_draft', schema ='draft', func=amateur_draft, min_year=1980, limit=10, current_year=True, add_year=True)
+    t.update_table()
+    
 
 if __name__ == "__main__":
     configure_logging()

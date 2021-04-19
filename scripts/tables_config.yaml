@@ -73,8 +73,6 @@ retrosheet:
         path: world_series_logs.tsv.gz
     park_codes:
         path: park_codes.tsv.gz
-    
-#     #check null date
     schedules:
         table_type: partitioned
         directory: schedules_dir
@@ -139,6 +137,12 @@ baseball_reference:
     pitching_stats_bref:
         table_type: partitioned
         directory: pitching_stats_bref_dir
+        iterator: year
+        partitioned_by: year
+draft:
+    amateur_draft:
+        table_type: partitioned
+        directory: amateur_draft_dir
         iterator: year
         partitioned_by: year
     
