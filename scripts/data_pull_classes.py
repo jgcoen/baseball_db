@@ -1,6 +1,7 @@
 import datetime
 import logging
 import os
+from typing import Callable
 
 import numpy as np
 import pandas as pd
@@ -88,7 +89,7 @@ class MultiYearDataPull:
                 logging.info(f"Could not pull data for {self.name} from {year}")
 
     def _aggregate_data(self) -> None:
-        """ Aggregates all data in the self.directory_path and writes it to self.path"""
+        """ (DEPRECATED) Aggregates all data in the self.directory_path and writes it to self.path"""
 
         logging.info(f"Begining to aggreate data and refresh {self.table_path}")
         files = [f for f in os.listdir(self.directory_path) if 'tsv' in f]
@@ -124,14 +125,13 @@ class MultiYearDataPull:
         logging.info(f"Begining to pull update the data for {self.name}")
 
         #Remove Most Recent Data
-        #self._remove_most_recent_data()
+        self._remove_most_recent_data()
 
         #Coverage
         self.potential_coverage = self._find_potential_coverage()
         self.coverage = self._find_coverage()
 
         self._pull_data()
-        #self._aggregate_data()
 
         logging.info(f"Finished updating the data for {self.name}")
 
@@ -211,8 +211,7 @@ class StatcastDataPull(MultiYearDataPull):
                 logging.info(f"Could not pull data for {self.name} from {month}")
 
     def _aggregate_data(self) -> None:
-        """ Aggregates all data in the self.directory_path and writes it to self.path"""
-        #Need to drop the index
+        """ (DEPRECATED) Aggregates all data in the self.directory_path and writes it to self.path"""
 
         logging.info(f"Begining to aggreate data and refresh {self.table_path}")
         files = [f for f in os.listdir(self.directory_path) if 'tsv' in f]
@@ -235,6 +234,31 @@ class StatcastDataPull(MultiYearDataPull):
         os.remove(next_most_recent_path)
         logging.info(f"Just removed {next_most_recent_path} to refresh data for {self.name}")
 
+def pull_single_table(func: Callable[[],pd.DataFrame], path_prefix: str, kwargs=None) -> pd.DataFrame:
+    """Pulls data from a pybaseball function that doesn't require an argument
+       and overwrites it to to the path_prefix+func.__name__.tsv.gz
+
+    Args:
+        func (func): The function that is pulling the data
+        path_prefix (str): The prefix for the write path for this table
+
+    Returns:
+        None
+    """
+    source = path_prefix.split('/')[1]
+
+    logging.info(f"Begining to pull {func.__name__} from {source}")
+
+    if kwargs is not None:
+        df = func(**kwargs)
+    else:
+        df = func()
+    path = path_prefix+func.__name__+'.tsv.gz'
+    df.to_csv(path, index=False, sep='\t', compression='gzip')
+
+    logging.info(f"Pulled {func.__name__} from {source} and wrote it to {path}")
+
+    return df
 
 def main():
 

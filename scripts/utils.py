@@ -43,31 +43,7 @@ def sleep_random(min_seconds: float=1, max_seconds: float=5) -> None:
     wait = random.uniform(min_seconds,max_seconds)
     time.sleep(wait)
 
-def pull_single_table(func: Callable[[],pd.DataFrame], path_prefix: str, kwargs=None) -> pd.DataFrame:
-    """Pulls data from a pybaseball function that doesn't require an argument
-       and overwrites it to to the path_prefix+func.__name__.tsv.gz
 
-    Args:
-        func (func): The function that is pulling the data
-        path_prefix (str): The prefix for the write path for this table
-
-    Returns:
-        None
-    """
-    source = path_prefix.split('/')[1]
-
-    logging.info(f"Begining to pull {func.__name__} from {source}")
-
-    if kwargs is not None:
-        df = func(**kwargs)
-    else:
-        df = func()
-    path = path_prefix+func.__name__+'.tsv.gz'
-    df.to_csv(path, index=False, sep='\t', compression='gzip')
-
-    logging.info(f"Pulled {func.__name__} from {source} and wrote it to {path}")
-
-    return df
 
 def create_db_connection():
 
