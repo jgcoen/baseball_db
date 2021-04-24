@@ -12,7 +12,6 @@ from utils import configure_logging
 
 
 def main():
-
     logging.info('Begining to update all the data')
 
     pull_lahman.main()

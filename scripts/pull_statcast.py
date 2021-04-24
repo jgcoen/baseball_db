@@ -10,6 +10,7 @@ def main():
 
     logging.info('Beginning to update statcast data')
     _statcast = StatcastDataPull(limit=10)
+    #_statcast._find_potential_coverage()
     _statcast.update_table()
     logging.info('Finished updating statcast data')
 

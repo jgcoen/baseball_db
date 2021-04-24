@@ -182,11 +182,13 @@ class StatcastDataPull(MultiYearDataPull):
         month_start = [d.strftime('%Y-%m-%d') for d in pd.date_range(start=min_month, end=current_date, freq='MS') if d.month not in [1,12]]
         month_end = [d.strftime('%Y-%m-%d') for d in pd.date_range(start=min_month, end=current_date, freq='M') if d.month not in [1,12]]
         potential_coverage = {datetime.datetime.strptime(d, '%Y-%m-%d').strftime('%Y-%m') for d in month_start}
+                                #if datetime.datetime.strptime(d, '%Y-%m-%d').strftime('%Y-%m') not in ['2020-02', '2020-03', '2020-04', '2020-05', '2020-06'] }  #Remove for covid season
 
         month_start_end = {}
 
         for c_month, m_start, m_end in zip(sorted(potential_coverage), month_start, month_end):
-            month_start_end[c_month]={'start':m_start, 'end': m_end}
+            if c_month not in ['2020-02', '2020-03', '2020-04', '2020-05', '2020-06']:
+                month_start_end[c_month]={'start':m_start, 'end': m_end}
         self.month_start_end = month_start_end
 
         return potential_coverage

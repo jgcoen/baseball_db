@@ -3,6 +3,7 @@ import os
 import random
 import time
 
+import pandas as pd
 import psycopg2
 import yaml
 
@@ -52,3 +53,44 @@ def create_db_connection():
     cur = conn.cursor()
 
     return conn, cur
+
+# def check_statcast_schema(data_path='data/statcast/statcast_dir/'):
+    
+#     file_list = sorted([data_path+f for f in os.listdir(data_path) if 'tsv.gz' in f])
+    
+#     d = {}
+#     for f in file_list:
+#         df = pd.read_csv(f, sep='\t')
+
+#         if 'index' in df.columns:
+#             print(f'{f} has the index column')
+#             df = df.drop(columns='index')
+#             df.to_csv(f, index=False, sep='\t', compression='gzip')
+#             print(f'Wrote the updated df to {f}')
+#         else:
+#             print(f'{f} does not have the index column, passing')
+
+def test(data_path='data/statcast/statcast_dir/'):
+    
+    file_list = sorted([data_path+f for f in os.listdir(data_path) if 'tsv.gz' in f])
+    
+    d = {}
+    for f in file_list:
+        try:
+            df = pd.read_csv(f, sep='\t', nrows=1)
+
+        # if 'index' in df.columns:
+        #     print(f'{f} has the index column')
+        #     df = df.drop(columns='index')
+        #     df.to_csv(f, index=False, sep='\t', compression='gzip')
+        #     print(f'Wrote the updated df to {f}')
+        # else:
+        #     print(f'{f} does not have the index column, passing')
+
+        except:
+            print(f)
+    
+
+if __name__ == '__main__':
+    #check_statcast_schema()
+    test()
