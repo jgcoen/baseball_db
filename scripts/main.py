@@ -29,7 +29,6 @@ def main():
 
     update_db.main()
 
-
     logging.info('Finished updating all the data')
 
 if __name__ == "__main__":
