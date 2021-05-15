@@ -91,6 +91,36 @@ statcast:
         iterator: month
         partitioned_by: game_date
         schema_override: {sv_id: varchar}
+    statcast_catcher_framing:
+        table_type: partitioned
+        directory: statcast_catcher_framing_dir
+        iterator: year
+        partitioned_by: year
+    statcast_catcher_poptime:
+        table_type: partitioned
+        directory: statcast_catcher_poptime_dir
+        iterator: year
+        partitioned_by: year
+    statcast_outs_above_average:
+        table_type: partitioned
+        directory: statcast_outs_above_average_dir
+        iterator: year
+        partitioned_by: year
+    statcast_outfield_catch_prob:
+        table_type: partitioned
+        directory: statcast_outfield_catch_prob_dir
+        iterator: year
+        partitioned_by: year
+    statcast_outfielder_jump:
+        table_type: partitioned
+        directory: statcast_outfielder_jump_dir
+        iterator: year
+        partitioned_by: year
+    statcast_outfield_directional_oaa:
+        table_type: partitioned
+        directory: statcast_outfield_directional_oaa_dir
+        iterator: year
+        partitioned_by: year
 
 fangraphs:
     batting_stats:

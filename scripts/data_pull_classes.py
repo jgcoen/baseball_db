@@ -6,6 +6,7 @@ from typing import Callable
 import numpy as np
 import pandas as pd
 from pybaseball import statcast, amateur_draft
+from pybaseball.statcast_fielding import statcast_outs_above_average
 from utils import configure_logging, sleep_random
 
 
@@ -84,6 +85,13 @@ class MultiYearDataPull:
                             _round += 1
                         except ImportError: #Now the draft is over, can move on
                             break
+                
+                if self.func==statcast_outs_above_average:
+                    df = []
+                    for pos in range(3,10):
+                        pos_df = statcast_outs_above_average(year, pos, **self.kwargs)
+                        df.append(pos_df)
+
                 else:
                     df = self.func(year, **self.kwargs)
 
@@ -102,6 +110,9 @@ class MultiYearDataPull:
                 logging.info(f"Wrote data to {year_path}")
             except:
                 logging.info(f"Could not pull data for {self.name} from {year}")
+                if year==2019:
+                    df = self.func(year, **self.kwargs)
+
 
     def _aggregate_data(self) -> None:
         """ (DEPRECATED) Aggregates all data in the self.directory_path and writes it to self.path"""
@@ -140,7 +151,7 @@ class MultiYearDataPull:
         logging.info(f"Begining to pull update the data for {self.name}")
 
         #Remove Most Recent Data
-        self._remove_most_recent_data()
+        #self._remove_most_recent_data()
 
         #Coverage
         self.potential_coverage = self._find_potential_coverage()
