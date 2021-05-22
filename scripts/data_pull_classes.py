@@ -5,7 +5,7 @@ from typing import Callable
 
 import numpy as np
 import pandas as pd
-from pybaseball import statcast, amateur_draft
+from pybaseball import amateur_draft, statcast
 from pybaseball.statcast_fielding import statcast_outs_above_average
 from utils import configure_logging, sleep_random
 
@@ -151,7 +151,7 @@ class MultiYearDataPull:
         logging.info(f"Begining to pull update the data for {self.name}")
 
         #Remove Most Recent Data
-        #self._remove_most_recent_data()
+        self._remove_most_recent_data()
 
         #Coverage
         self.potential_coverage = self._find_potential_coverage()

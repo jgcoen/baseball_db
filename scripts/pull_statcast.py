@@ -1,8 +1,13 @@
 import logging
 
-from data_pull_classes import StatcastDataPull, MultiYearDataPull
+from data_pull_classes import MultiYearDataPull, StatcastDataPull
 from pybaseball import cache
-from pybaseball.statcast_fielding import statcast_catcher_framing, statcast_catcher_poptime, statcast_outs_above_average, statcast_outfield_catch_prob, statcast_outfielder_jump, statcast_outfield_directional_oaa
+from pybaseball.statcast_fielding import (statcast_catcher_framing,
+                                          statcast_catcher_poptime,
+                                          statcast_outfield_catch_prob,
+                                          statcast_outfield_directional_oaa,
+                                          statcast_outfielder_jump,
+                                          statcast_outs_above_average)
 from utils import configure_logging
 
 

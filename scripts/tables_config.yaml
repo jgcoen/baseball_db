@@ -175,4 +175,3 @@ draft:
         directory: amateur_draft_dir
         iterator: year
         partitioned_by: year
-    
