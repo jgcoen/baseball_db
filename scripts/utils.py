@@ -10,7 +10,6 @@ import yaml
 
 def configure_logging():
     """Configures a basic logger with level=logging.INFO"""
-    #logging.basicConfig(level=logging.INFO, format='%(asctime)s  %(name)s - %(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
     logging.getLogger().setLevel(logging.INFO)
 
 
@@ -44,8 +43,6 @@ def sleep_random(min_seconds: float=1, max_seconds: float=5) -> None:
     wait = random.uniform(min_seconds,max_seconds)
     time.sleep(wait)
 
-
-
 def create_db_connection():
 
     load_secrets()
@@ -54,43 +51,18 @@ def create_db_connection():
 
     return conn, cur
 
-# def check_statcast_schema(data_path='data/statcast/statcast_dir/'):
-    
-#     file_list = sorted([data_path+f for f in os.listdir(data_path) if 'tsv.gz' in f])
-    
-#     d = {}
-#     for f in file_list:
-#         df = pd.read_csv(f, sep='\t')
-
-#         if 'index' in df.columns:
-#             print(f'{f} has the index column')
-#             df = df.drop(columns='index')
-#             df.to_csv(f, index=False, sep='\t', compression='gzip')
-#             print(f'Wrote the updated df to {f}')
-#         else:
-#             print(f'{f} does not have the index column, passing')
-
-def test(data_path='data/statcast/statcast_dir/'):
+def check_statcast_schema(data_path='data/statcast/statcast_dir/'):
     
     file_list = sorted([data_path+f for f in os.listdir(data_path) if 'tsv.gz' in f])
     
     d = {}
     for f in file_list:
-        try:
-            df = pd.read_csv(f, sep='\t', nrows=1)
+        df = pd.read_csv(f, sep='\t')
 
-        # if 'index' in df.columns:
-        #     print(f'{f} has the index column')
-        #     df = df.drop(columns='index')
-        #     df.to_csv(f, index=False, sep='\t', compression='gzip')
-        #     print(f'Wrote the updated df to {f}')
-        # else:
-        #     print(f'{f} does not have the index column, passing')
-
-        except:
-            print(f)
-    
-
-if __name__ == '__main__':
-    #check_statcast_schema()
-    test()
+        if 'index' in df.columns:
+            print(f'{f} has the index column')
+            df = df.drop(columns='index')
+            df.to_csv(f, index=False, sep='\t', compression='gzip')
+            print(f'Wrote the updated df to {f}')
+        else:
+            print(f'{f} does not have the index column, passing')
