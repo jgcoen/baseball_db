@@ -3,8 +3,15 @@ import logging
 from data_pull_classes import MultiYearDataPull
 from pybaseball import (batting_stats, pitching_stats, team_batting,
                         team_fielding, team_pitching)
+import pandas as pd
 from utils import configure_logging
 
+
+def pull_woba_scale(path = 'data/fangraphs/woba_scale.tsv.gz'):
+    #Pull woba scales
+    df_list = pd.read_html('https://www.fangraphs.com/guts.aspx?type=cn')
+    df = df_list[-1]
+    df.to_csv(path, compression='gzip', sep='\t', index=False)
 
 def main():
 
@@ -24,6 +31,8 @@ def main():
 
     _team_pitching = MultiYearDataPull(name='team_pitching', schema ='fangraphs', func=team_pitching, min_year=1980, limit=25, kwargs={'qual': 0}, current_year=True)
     _team_pitching.update_table()
+
+    pull_woba_scale()
 
     logging.info('Finished to pulling fangraphs data')
 
