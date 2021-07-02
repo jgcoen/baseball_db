@@ -148,13 +148,18 @@ fangraphs:
         directory: team_fielding_dir
         iterator: year
         partitioned_by: season
+    woba_scale:
+        path: woba_scale.tsv.gz
 chadwick:
     chadwick_register:
         path: chadwick_register.tsv.gz
 
 baseball_reference:
     standings:
-        path: standings.tsv.gz
+        table_type: partitioned
+        directory: standings_dir
+        iterator: year
+        partitioned_by: year
     bwar_bat:
         path: bwar_bat.tsv.gz
     bwar_pitch:
