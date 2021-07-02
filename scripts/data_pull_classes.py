@@ -105,6 +105,8 @@ class MultiYearDataPull:
                     for t in teams:
                         sleep_random(min_seconds=.5, max_seconds=1)
                         team_df = schedule_and_record(season=year, team=t)
+                        team_df['orig_scheduled'] = team_df['Orig. Scheduled']
+                        team_df = team_df.drop(columns='Orig. Scheduled')
                         df.append(team_df)
                 else:
                     df = self.func(year, **self.kwargs)
