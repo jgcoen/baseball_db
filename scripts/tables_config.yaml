@@ -179,6 +179,7 @@ baseball_reference:
         directory: schedule_and_record_dir
         iterator: year
         partitioned_by: year
+        schema_override: {orig_scheduled: varchar}
 draft:
     amateur_draft:
         table_type: partitioned

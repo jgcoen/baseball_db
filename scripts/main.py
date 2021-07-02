@@ -26,7 +26,7 @@ def main():
     pull_single_table(func=chadwick_register, path_prefix='data/chadwick/')
     logging.info('Finished pulling chadwick data')
 
-    _draft = MultiYearDataPull(name='amateur_draft', schema ='draft', func=amateur_draft, min_year=1980, limit=10, current_year=True, add_year=True)
+    _draft = MultiYearDataPull(name='amateur_draft', schema ='draft', func=amateur_draft, min_year=1980, limit=4, current_year=True, add_year=True)
     _draft.update_table()
 
     update_db.main()

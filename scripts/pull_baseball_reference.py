@@ -24,7 +24,7 @@ def main():
     _pitching_stats = MultiYearDataPull(name='pitching_stats_bref', schema ='baseball_reference', func=pitching_stats_bref, min_year=2008, limit=15, current_year=True, add_year=True)
     _pitching_stats.update_table()
 
-    _schedule_and_record = MultiYearDataPull(name='schedule_and_record', schema ='baseball_reference', func=schedule_and_record, min_year=1971, limit=10, current_year=True, add_year=True)
+    _schedule_and_record = MultiYearDataPull(name='schedule_and_record', schema ='baseball_reference', func=schedule_and_record, min_year=1871, limit=15, current_year=True, add_year=True)
     _schedule_and_record.update_table()
 
 if __name__ == "__main__":
