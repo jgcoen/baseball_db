@@ -127,6 +127,16 @@ class MultiYearDataPull:
     def _remove_most_recent_data(self) -> None:
         """Removes the most recent data in self.directory_path to refresh"""
 
+        #Test to see if there there any files that are not in yyyy format
+        bad_format = [f for f in os.listdir(self.directory_path) if 'tsv' and len(f.split('.')[0])>4]
+        
+        if len(bad_format)>0:
+            for bad_file in bad_format:
+                bad_file_path = f"{self.directory_path}{bad_file}"
+                logging.info(f"Removing malformed files: {bad_file_path}")
+                os.remove(bad_file_path)
+
+
         coverage = {int(f.split('.')[0]) for f in os.listdir(self.directory_path) if 'tsv' in f}
         if coverage != {}:
             max_year = max(coverage)
@@ -250,6 +260,16 @@ class StatcastDataPull(MultiYearDataPull):
 
     def _remove_most_recent_data(self) -> None:
         """Removes the most recent data in self.directory_path to refresh"""
+
+        #Test to see if there there any files that are not in yyyy format
+        bad_format = [f for f in os.listdir(self.directory_path) if 'tsv' and len(f.split('.')[0])>7]
+        
+        if len(bad_format)>0:
+            for bad_file in bad_format:
+                bad_file_path = f"{self.directory_path}{bad_file}"
+                logging.info(f"Removing malformed files: {bad_file_path}")
+                os.remove(bad_file_path)
+
 
         coverage = {(f.split('.')[0]) for f in os.listdir(self.directory_path) if 'tsv' in f}
         max_date = max(coverage)
