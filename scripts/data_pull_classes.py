@@ -5,7 +5,7 @@ from typing import Callable
 
 import numpy as np
 import pandas as pd
-from pybaseball import amateur_draft, statcast
+from pybaseball import amateur_draft, statcast, schedule_and_record
 from pybaseball.statcast_fielding import statcast_outs_above_average
 from utils import configure_logging, sleep_random
 
@@ -29,6 +29,11 @@ class MultiYearDataPull:
         #Coverage
         self.potential_coverage = None
         self.coverage = None
+    
+    def _create_directory(self):
+        
+        if not os.path.isdir(self.directory_path):
+            os.mkdir(self.directory_path)
 
     def _find_potential_coverage(self) -> set:
         """ Finds the potential years of data to pull, using the min_year
@@ -85,13 +90,22 @@ class MultiYearDataPull:
                             _round += 1
                         except ImportError: #Now the draft is over, can move on
                             break
-                
-                if self.func==statcast_outs_above_average:
+                #statcast_outs_above_average specific
+                elif self.func==statcast_outs_above_average:
                     df = []
                     for pos in range(3,10):
                         pos_df = statcast_outs_above_average(year, pos, **self.kwargs)
                         df.append(pos_df)
-
+                
+                elif self.func == schedule_and_record:
+                    bwar_bat_path = 'data/baseball_reference/bwar_bat.tsv.gz'
+                    bwar_bat = pd.read_csv('data/baseball_reference/bwar_bat.tsv.gz', sep='\t')
+                    teams = bwar_bat.loc[bwar_bat['year_ID']==year, 'team_ID'].unique()
+                    df = []
+                    for t in teams:
+                        sleep_random(min_seconds=.5, max_seconds=1)
+                        team_df = schedule_and_record(season=year, team=t)
+                        df.append(team_df)
                 else:
                     df = self.func(year, **self.kwargs)
 
@@ -138,7 +152,7 @@ class MultiYearDataPull:
 
 
         coverage = {int(f.split('.')[0]) for f in os.listdir(self.directory_path) if 'tsv' in f}
-        if coverage != {}:
+        if coverage != set():
             max_year = max(coverage)
             most_recent_path = f"{self.directory_path}{max_year}.tsv.gz"
             os.remove(most_recent_path)
@@ -152,6 +166,7 @@ class MultiYearDataPull:
         """Updates the table
 
            Steps
+            - check if there is a directory
             - remove the most recent data
             - determine current coverage
             - pull data
@@ -159,6 +174,8 @@ class MultiYearDataPull:
         """
 
         logging.info(f"Begining to pull update the data for {self.name}")
+
+        self._create_directory()
 
         #Remove Most Recent Data
         self._remove_most_recent_data()
